@@ -1,0 +1,144 @@
+<div data-role="view" id="fileView" data-title="My Files" data-align="left" data-show="getFileSystem">
+	<header data-role="header">
+		<div data-role="navbar">
+            <!--<a data-role="backbutton" data-align="left" href="#" id="backBtn">Back</a>-->
+            <a data-role="backbutton" data-align="left" id="backBtn" href="#fileView">Back</a>          
+            
+            <span data-role="view-title"></span>
+            <a data-role="button" data-align="right" id="addBtn" data-icon="add" onclick="javascript:addBtnClicked();"></a>
+            
+		</div>
+        
+	</header>
+    <!--<div id="fileContent" class="demo-section" data-role="content">
+        <ul id="treeview">
+            <li data-expanded="true">
+                <span class='k-sprite folder'></span>Backups
+                <ul>
+                    <li><span class='k-sprite'></span>Plugins</li>
+                </ul>
+             </li>
+        </ul>	
+        
+	</div>-->
+    
+    
+    
+   <!-- <p>
+    <div class="ui-grid-d" id="menuOptions1"  >
+	   <div class="ui-block-a">
+		    <input type="button" id="openBtn" value="Open" onclick="javascript:openBtnClicked();">
+	   </div>
+    	<div class="ui-block-b">
+    		<input type="button" id="copyBtn" value="Copy" onclick="javascript:copyBtnCLicked();">
+    	</div>
+    	<div class="ui-block-c">
+    		<input type="button" id="moveBtn" value="Move" onclick="javascript:moveBtnCLicked();">
+    	</div>
+    	<div class="ui-block-d">
+    		<input type="button" id="pasteBtn" value="Paste" disabled onclick="javascript:pasteBtnCLicked();"> 
+    	</div>
+        <div class="ui-block-e">
+    		<input type="button" id="deleteBtn" value="Delete" onclick="javascript:deleteBtnClicked();">
+    	</div>
+        <div class="ui-block-f">
+    		<input type="button" id="addBtn" value="Add" onclick="javascript:addBtnClicked();">
+    	</div>
+     </div>
+   </p>-->
+    
+  <div id="addFolderDialog" >
+      <p>
+     <!-- <div data-role="content">        -->  
+          <input id="radio_d" type="radio" value="d" name="dir-or-file" checked />Directory
+          <input id="radio_f" type="radio" value="f" name="dir-or-file" onclick="javascript:showTextarea();"/>File
+           <br/>
+      	<input type="text" id="newFolderName" placeholder="New Name">      
+          <input type="button" id="createFolder" value="create"> 
+      <!--</div>-->
+          
+           <textarea id="filetext" cols="30" rows="10" style="display:none"></textarea>
+          
+      </p>
+</div>
+    
+    <!--<a id="menu" href="#addFolderDialog" data-rel="modalview">file details</a>-->
+    
+        
+    
+    
+    <div class="ui-grid-c" id="dirContent">
+	  <!--<div class="ui-block-a">
+		    <div class="folder"><p>folder name</p></div>
+	   </div>
+    	<div class="ui-block-b">
+    		<div class="folder"> <p>folder name</p></div>
+    	</div>
+    	<div class="ui-block-c">
+    		<div class="folder"><p>folder name</p></div>
+    	</div>
+    	<div class="ui-block-d">
+    		<div class="folder"><p>folder name</p></div>
+    	</div>
+
+    	<div class="ui-block-a">
+    		<div class="file"><p>file name</p></div>
+    	</div>
+    	<div class="ui-block-b">
+    		<div class="file"><p>file name</p></div>
+    	</div>
+    	<div class="ui-block-c">
+    		<div class="file"><p>file name</p></div>
+    	</div>
+    	<div class="ui-block-d">
+    		<div class="file"><p>file name</p></div>
+    	</div>-->
+    </div>
+    
+    
+    
+    <!--<div id="fileField" type="text" readonly="readonly"></div>-->
+    
+    <!--<a id="menu" href="#menuOptions" data-rel="dialog">file details</a>
+            <a id="get_file_details" href="#fileDetails" data-rel="dialog">file details</a>-->
+    
+    
+    <!--<div data-role="popover" id="menuOptions" data-popup='{"height":"20em", "width":"20em"}'>
+        <div data-role="view">
+            <ul data-role="listview" data-style="inset">
+                <li><a onclick="javascript:openBtnClicked();">Open</a></li>
+                <li><a onclick="javascript:copyBtnCLicked();">Copy</a></li>
+                <li><a onclick="javascript:moveBtnCLicked();">Move</a></li>
+                <li><a disabled onclick="javascript:pasteBtnCLicked();">Paste</a></li>
+                <li><a onclick="javascript:deleteBtnClicked();">Delete</a></li>
+                <li><a onclick="javascript:closeMenuOptions();">Cancel</a></li>
+            </ul>	
+        </div>
+    </div>-->
+</div>
+
+<!--<div id="menuOptions" style="width: 95%; height: 18em;" data-role="modalview" >
+        <div data-role="header">
+            <div data-role="navbar">
+                <span>Actions</span>
+                <a data-click="coseModalViewLogin" data-role="button" data-align="right">Cancel</a>
+            </div>
+        </div>
+        <input type="button" id="openBtn" value="Open" >
+        <input type="button" id="copyBtn" value="Copy" >
+</div>-->
+
+<div id="menuOptions" style="width: 20em; height: 22em;" data-role="modalview" >
+    <ul data-role="listview" data-style="inset">
+        <li><a onclick="javascript:openBtnClicked();">Open</a></li>
+        <li><a onclick="javascript:copyBtnCLicked();">Copy</a></li>
+        <li><a onclick="javascript:moveBtnCLicked();">Move</a></li>
+        <li><a onclick="javascript:pasteBtnCLicked();" id="pasteBtn">Paste</a></li>
+        <li><a onclick="javascript:deleteBtnClicked();">Delete</a></li>
+        <li><a onclick="javascript:closeMenuOptions();">Cancel</a></li>
+    </ul>	  
+</div>
+
+
+
+

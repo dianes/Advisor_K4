@@ -1,0 +1,40 @@
+.km-ios .km-view .km-navbar {
+    background-color: rgb(255, 136, 0);
+}
+.km-ios .km-view .km-navbar .km-button {
+    background-color: rgb(204, 204, 204);
+}
+.km-ios .km-view .km-navbar .km-button.km-state-active {
+    background-color: rgb(204, 204, 204);
+}
+.km-ios .km-view .km-navbar .km-button .km-text {
+    color: rgb(0, 0, 0);
+}
+.km-ios .km-view .km-navbar .km-button.km-state-active .km-text {
+    color: rgb(0, 0, 0);
+}
+.km-ios .km-view .km-content .km-list .km-state-active .km-listview-link {
+    background-color: rgb(179, 68, 0);
+}
+.km-ios .km-view .km-tabstrip .km-button .km-icon {
+    color: rgb(255, 255, 255);
+}
+.km-ios .km-view .km-content {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    line-height: normal;
+    text-shadow: rgb(255, 255, 255) 1px 1px 1px;
+}
+
+
+.km-view-title{    
+    font-size: 3em;
+}
+
+/* list view */
+.km-ios .km-list > li
+{
+    background-color: #E9F2F8
+}

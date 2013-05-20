@@ -1,0 +1,92 @@
+<div data-role="view" id="contactSearchView" data-title="Contact Search" data-show="initContactSearch">
+	<header data-role="header">
+		<div data-role="navbar">
+            <a data-role="backbutton" data-align="left">Back</a>
+            <span data-role="view-title"></span>
+		</div>
+	</header>
+    <div id="contactSearchViewContent" data-role="content">
+             
+       <!-- <div id="contactSearchCriteria">
+            <p>
+                <label style="display: inline-block;">Search For:</label>
+                <input type="radio" id="selClient" value="client"   name="srchFor" checked />Client
+                <input type="radio" id="selProspect" value="prospect" name="srchFor"  />Prospect
+            </p>
+            <p>
+                <label style="display: inline-block;">Search By:</label>
+                <input type="radio" id="selDemo" value="srchByDemo"   name="srchBy" checked />Demographic Information
+                <input type="radio" id="selAcct" value="srchByAcctno" name="srchBy"  />Account #
+                <input type="radio" id="selRepCode" value="srchByRepCode" name="srchBy"  />Rep Code
+            </p>
+            <p>
+                <label for="txtLname" style="display: inline-block;">Last Name:</label>
+                <input type="text" id="txtLname" value="" />
+                <label for="txtFname" style="display: inline-block;">First Name:</label>
+                <input type="text" id="txtFname" value="" /><br/>           
+                <label for="txtCity" style="display: inline-block;">City:</label>
+                <input type="text" id="txtCity" value="" />
+                <label for="txtState" style="display: inline-block;">State:</label>
+                <input type="text" id="txtState" value="" />
+                <label for="txtZip" style="display: inline-block;">Zip:</label>
+                <input type="text" id="txtZip" value="" />
+                <a id="btnSearch" data-role="button" data-click="searchContact">Search</a>
+                 
+            </p>            
+        </div>-->
+       <div class="buttonArea">            
+                <!--<input type="text" placeholder="Last Name" id="txtLname" style="font-size:20px;width:80%;height:1.8em">-->
+               <input id="txtLname" style="font-size:1.1em;height:1.5em;font-style:italic" onkeypress="autocompleteKeypressed(event)" onclick='javascript:this.value=""'>
+                <a id="btnSearch" data-role="button" data-align="left" data-icon="search" data-click="searchContact"></a>            
+        </div>
+                    
+        <ul id="contactsearchlist" data-role="listview" data-style="inset" style="display:none"></ul>
+        
+        <!--<ul data-role="listview">
+            <li>
+                <input type="text" placeholder="Last Name" id="txtLname" style="font-size:20px" text-align="left" >
+                <a id="btnSearch" data-role="button" data-icon="search" data-click="searchContact" data-align="right"></a>
+            </li>
+        </ul>-->
+	        
+        <!--<div id="tblDiv">
+            <table id="contactSearchResultGrid" style="display:none" >             
+                
+                <tbody id="contactSearchResultBody">
+                    
+                </tbody>
+            </table>    
+         </div>
+        
+        <script id="contactSearchResultRowTemplate" type="text/x-kendo-template">
+            <tr>            
+                <td><a href="\#hhSnapshotView?hhId=#: hh_id #">#: lname #, #: fname #</a></td>  
+                <td>#: type #</td>
+                #if(acct_no == ""){# 
+                    <td>NA</td> 
+                #}else{# 
+                    <td>#: acct_no#</td>
+                #}#                
+                <td>#: phone #</td>
+                <td>#: city #</td>
+                <td>#: state #</td>
+                <td>#: zip #</td>                
+                <td></td>
+                
+           </tr>
+        </script>-->
+                            
+	</div>
+
+
+     <script type="text/x-kendo-template" id="contactsearch-listview-template">
+                <a href="\#hhSnapshotView?hhId=${hh_id}" style="text-decoration:none;">${lname}, ${fname} </a> 
+                <p class="contact-type">${type}</p>
+                <a href="\#hhProfileView?hhId=${hh_id}" data-role="button" data-icon="details" class="details-link" onclick="contactdetailclick(${hh_id});"></a>
+     </script>
+    
+     <script type="text/x-kendo-template" id="contactsearch-listview-template2">
+                <a href="\#hhSnapshotView?hhId=${hh_id}" onclick="contactnameclick(${hh_id});">${lname}, ${fname} </a> 
+                
+     </script>
+</div>
