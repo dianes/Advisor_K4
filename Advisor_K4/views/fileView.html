@@ -103,7 +103,7 @@
             <a id="get_file_details" href="#fileDetails" data-rel="dialog">file details</a>-->
     
     
-    <!--<div data-role="popover" id="menuOptions" data-popup='{"height":"20em", "width":"20em"}'>
+ <!--   <div data-role="popover" id="menuOptions1" data-popup='{"height":"20em", "width":"20em"}'>
         <div data-role="view">
             <ul data-role="listview" data-style="inset">
                 <li><a onclick="javascript:openBtnClicked();">Open</a></li>
@@ -111,11 +111,11 @@
                 <li><a onclick="javascript:moveBtnCLicked();">Move</a></li>
                 <li><a disabled onclick="javascript:pasteBtnCLicked();">Paste</a></li>
                 <li><a onclick="javascript:deleteBtnClicked();">Delete</a></li>
-                <li><a onclick="javascript:closeMenuOptions();">Cancel</a></li>
+                <li><a onclick="javascript:closeMenuOptions();">Cancel</a></li>  
             </ul>	
         </div>
-    </div>-->
-</div>
+    </div>
+</div>-->
 
 <!--<div id="menuOptions" style="width: 95%; height: 18em;" data-role="modalview" >
         <div data-role="header">
@@ -128,15 +128,40 @@
         <input type="button" id="copyBtn" value="Copy" >
 </div>-->
 
-<div id="menuOptions" style="width: 20em; height: 22em;" data-role="modalview" >
+    
+<!-<div id="qqmenuOptions" style="width: 20em; height: 22em;" data-role="modalview" >
     <ul data-role="listview" data-style="inset">
         <li><a onclick="javascript:openBtnClicked();">Open</a></li>
         <li><a onclick="javascript:copyBtnCLicked();">Copy</a></li>
         <li><a onclick="javascript:moveBtnCLicked();">Move</a></li>
         <li><a onclick="javascript:pasteBtnCLicked();" id="pasteBtn">Paste</a></li>
         <li><a onclick="javascript:deleteBtnClicked();">Delete</a></li>
-        <li><a onclick="javascript:closeMenuOptions();">Cancel</a></li>
+        <li><a href="javascript:closeMenuOptions();" date-click="closeMenuOptions">Cancel</a></li>
     </ul>	  
+</div>-->
+
+<div id="menuOptions" style="width: 20em; height: 22em;">
+    <div>
+    		<p><input type="button" id="addBtn" value="Add" href="javascript:addBtnClicked();"></p>
+    	</div>
+       <div>
+		<p><input type="button" id="openBtn" value="Open" href="javascript:openBtnClicked();"></p>
+	   </div>
+    	<div>
+    		<p><input type="button" id="copyBtn" value="Copy" href="javascript:copyBtnCLicked();"></p>
+    	</div>
+    	<div>
+    		<p><input type="button" id="moveBtn" value="Move" href="javascript:moveBtnCLicked();"></p>
+    	</div>
+    	<div>
+    		<p><input type="button" id="pasteBtn" value="Paste" disabled href="javascript:pasteBtnCLicked();"></p> 
+    	</div>
+        <div>
+    		<p><input type="button" id="deleteBtn" value="Delete" href="javascript:deleteBtnClicked();"></p>
+    	</div>
+        
+</div>
+    
 </div>
 
 

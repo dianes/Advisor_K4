@@ -1,5 +1,5 @@
 var g_hhAcctListGrpFooter;
-var LOCAL = true;
+var LOCAL = false;
 var instId=6083;
 var bId=10408149;
 var modId = 120;
@@ -40,7 +40,7 @@ function ajaxCall(url, param, onSuccess, data, args){
 
 
 function getContactList(){
-    var url = "http://r-sund2/ContactService/Service1.asmx/GetRecentContacts";
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetRecentContacts";
     var param = '{InstID:' + instId + ', BrokerID:' + bId + '}'; 
     if(LOCAL){        
         data = JSON.parse(RECENTCONTACT_DATA);
@@ -71,7 +71,7 @@ function getHHSnapshot(e){
 
 
 function getHHMembers(hhId){    
-    var url = "http://r-sund2/ContactService/Service1.asmx/GetHHMembers";
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetHHMembers";
     var param = '{InstID:' + instId + ', BrokerID:' + bId + ', ModuleID:' + modId + ', HHID:' + hhId + '}';  
     ajaxCall(url, param, onGetHHMembersSuccess, data);
 }
@@ -115,7 +115,7 @@ function onGetHHMembersSuccess(data){
      $.ajax({ 
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "http://r-sund2/ContactService/Service1.asmx/GetHHAccountList",
+        url: "http://10.253.2.198/ContactService/Service1.asmx/GetHHAccountList",
        // data: "{'InstID': 6083, 'BrokerID': 10408149, 'ModuleID': 120, 'HHID': 6829146}",
         data: param,
         dataType: "json",
@@ -230,7 +230,7 @@ function searchContactold(){
 
                     param = '{InstID:' + instId + ', BrokerID:' + bId + ', SearchFor:"' + searchFor + 
                         '", SearchQRY:"' + queryStr + '", page: 1, itemCount: 25, sortColumn: "Name", isAscending: true' +  '}'; 
-                    url = "http://r-sund2/ContactService/Service1.asmx/SearchByDemographic"; 
+                    url = "http://10.253.2.198/ContactService/Service1.asmx/SearchByDemographic"; 
                 }
                 else if(action == "srchByAcctno"){                    
                 }
@@ -357,7 +357,7 @@ function searchContactByText(txtLname){
       queryStr="<firstname></firstname><lastname>" + txtLname + "</lastname><city></city><state></state><zip></zip>";  
       param = '{InstID:' + instId + ', BrokerID:' + bId + ', SearchFor:"' + searchFor + 
                         '", SearchQRY:"' + queryStr + '", page: 1, itemCount: 25, sortColumn: "Name", isAscending: true' +  '}'; 
-      url = "http://r-sund2/ContactService/Service1.asmx/SearchByDemographic"; 
+      url = "http://10.253.2.198/ContactService/Service1.asmx/SearchByDemographic"; 
      
       if(LOCAL){          
           data = JSON.parse(CONTACTSEARCH_SMITH_DATA);
@@ -393,7 +393,7 @@ function getContactsInfo(hhId){
     $("#hhProfileListGrid").empty();
      
     var param = '{InstID:' + instId + ', BrokerID:' + bId + ', propId: 0, partyId:' + hhId + '}';  
-    var url = "http://r-sund2/ContactService/Service1.asmx/GetContactDetails";   
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetContactDetails";   
     if(LOCAL){        
         data = JSON.parse(CONTACTDETAIL_DATA);
         OnGetContactsInfoSuccess(data, args);
@@ -413,7 +413,7 @@ function OnGetContactsInfoSuccess(data, args){
 function getAccountsInfo(hhId){
     $("#hhAccountInfo").empty();
     var param = '{planId: 0, householdId:' + hhId + '}'; 
-    var url = "http://r-sund2/ContactService/Service1.asmx/GetAccountHHSnapshot";    
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetAccountHHSnapshot";    
     args[0] = hhId;
     if(LOCAL){
         data = JSON.parse(ACCOUNTHHSNAPHOT_DATA);
@@ -566,7 +566,7 @@ function getAcctDetail(e)
     $("#assetsTable").empty();    
  
     var param = '{acctId:"' + acctId + '", householdId:' + hhId + ', planId: 0, partyId:0, partyType: "Household", acViewId: -1}';    
-    var url = "http://r-sund2/ContactService/Service1.asmx/GetAccountSnapshot";
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetAccountSnapshot";
     if(LOCAL){        
         data = JSON.parse(ACCOUNTSNAPSHOT_DATA);
         onGetAcctDetailSuccess(data, args);
@@ -884,21 +884,21 @@ function onDeviceReady(){
 
 function getFileSystem(){
     
-   // alert("getfilesystem");    
+    alert("getfilesystem");    
     $('#backBtn').hide();
     $('#pasteBtn').removeAttr("onclick");
   //  $('#pasteBtn').contents().unwrap();
     
   //  $('#addFolderDialog').show();
     
-   // openMenuOptions();
+    openMenuOptions();
           
   
-   // $('#menuOptions').hide();
+  //  $('#menuOptions').hide();
     $('#addFolderDialog').hide();
   
    
-  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onGetFileSystemSuccess, onGetFileSystemFail); 
+  //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onGetFileSystemSuccess, onGetFileSystemFail); 
 }
 
 function onGetFileSystemSuccess(fileSystem){
@@ -1020,7 +1020,7 @@ function clickItemAction(){
 	var pasteBtn = $('#pasteBtn');
     
     folders.live('click', function(){
-       // alert("folder clicked");
+        alert("folder clicked");
         var name = $(this).text();
         openMenuOptions();
      //   $('#menuOptions').show();
@@ -1040,7 +1040,7 @@ function clickItemAction(){
     });*/
     
     files.live('click', function(){
-     //   alert("file clicked");
+        alert("file clicked");
         var name = $(this).text();
         openMenuOptions();
        //$('#dirContent').hide();
@@ -1364,26 +1364,40 @@ function writeFilefail(error) {
     }
 
 
-function openMenuOptions(){    
-  //  alert("openMenuOptions");
-    var win = $('#menuOptions').data("kendoMobileModalView");
-  //  alert("win="+win);
-    win.open();
+function openMenuOptions(){
+    alert("blockui");
+    $.blockUI({ message: $('#menuOptions')} ); 
 }
 
 function closeMenuOptions(){
+    alert("blockui closeMenuOptions");
+    $.unblockUI(); 
+   return false; 
+}
+
+function openMenuOptionsModalView(){    
+    alert("openMenuOptions");
+    var win = $('#menuOptions').data("kendoMobileModalView");
+    alert("win="+win);
+    win.open();   
+}
+
+function closeMenuOptionsModalView(){
+    
     $('#menuOptions').data("kendoMobileModalView").close();
 }
 
-function openMenuOptionsPopOver(){
+function openMenuOptionsPopover(){
     alert("openMenuOptions");
     debugger;
     var pop = $('#menuOptions').data("kendoMobilePopOver");
     alert("pop="+pop);
     pop.open();
+    alert("app="+app);
+    
 }
 
-function closeMenuOptionsPopOver(){
+function closeMenuOptionsPopover(){
     $('#menuOptions').data("kendoMobilePopOver").close();
 }
 
@@ -1393,6 +1407,113 @@ function resetAddFolderDialog(){
     $('#radio_f').attr("checked", false);
     $('#filetext').val('');
 }
+
+
+
+function showchartsWithStaticData(){
+    var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);
+   // debugger;
+  //  alert("portfolioGrowthObj="+portfolioGrowthObj);
+        
+    $('#portfolioGrowthChart').kendoChart({
+        dataSource: {data: portfolioGrowthObj.performance_history.performance},
+        title: {text: "Portfolio Growth"},
+        legend:{ position: "bottom"},
+        chartArea:{background: ""},                                     
+                   
+        seriesDefaults: {type: "line"},
+        series: [{field: "value"}],
+        valueAxis: {labels:{format:"{0:c}"},
+                    line:{visible:true},
+                    majorUnit: 5000
+                    },
+       /* categoryAxis:{field:"date",
+                      majorGridLines:{visible:false}}    */
+        categoryAxis:
+            {
+                field: "date",
+                majorGridLines:{visible:false},
+                labels: { template: "#= getYearLabel(value) #" ,
+                          rotation: -45
+                        }
+            
+            },
+        tooltip:{visible: true, background:"orange"}                
+    });
+    
+    debugger;
+    var bestWorstAvgRtnObj = xml2json.parser(BESTWORSTAVGRTN_XML);
+    alert("bestWorstAvgRtnObj="+ bestWorstAvgRtnObj);
+    $('#bestWorstAvgRtnChart').kendoChart({
+        dataSource: { data: bestWorstAvgRtnObj.bestworstaveragereturns.period },
+        title:{text: "Holding Periods Volatility"},
+        legend:{positon: "bottom"},
+        dateField: "YearLength",
+        series:[{
+            type: "column",
+            highField: "BestRet",
+            lowField: "WorstRet",
+            openField: "AvgRet"            
+        }],
+        
+    });
+}
+
+function getYearLabel(value){
+    alert("value="+value);
+    value = value.toString();
+    return value.substring(0,4);
+}
+
+function showcharts(){    
+    var acctId = "T-15719185";
+    var householdId = 6829146;
+    var investorId=12147476;
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetPortfolioGrowth";
+    var param = '{func:"portAnalysis", reportId:1, accountId:"' + acctId + '", householdId:' + householdId + ', investorId:' + investorId + '}'; 
+    alert("param="+param);
+    if(LOCAL){ 
+        var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);
+        //data = JSON.parse(RECENTCONTACT_DATA);
+        data = portfolioGrowthObj
+        onGetPortfolioDataSuccess(data, args);
+    }
+    else{    
+        ajaxCall(url, param, onGetPortfolioDataSuccess, data, args);  
+    }
+}
+
+function onGetPortfolioDataSuccess(data, args){
+    debugger;
+    alert("onGetPortfolioDataSuccess");
+    $('#portfolioGrowthChart').kendoChart({
+        dataSource: {data: data.Portfolio.MarketValues_.MarketValues_},
+        title: {text: "Portfolio Growth"},
+        legend:{ position: "bottom"},
+        chartArea:{background: ""},                                     
+                   
+        seriesDefaults: {type: "line"},
+        series: [{field: "Val"}],
+        valueAxis: {labels:{format:"{0:c}"},
+                    line:{visible:true},
+                    majorUnit: 5000
+                    },
+       /* categoryAxis:{field:"date",
+                      majorGridLines:{visible:false}}    */
+        categoryAxis:
+            {
+                field: "Date",
+                majorGridLines:{visible:false},
+                labels: { template: "#= getYearLabel(value) #" ,
+                          rotation: -45
+                        }
+            
+            },
+        tooltip:{visible: true, background:"orange"}                
+    });
+}
+    
+
 
 
 
