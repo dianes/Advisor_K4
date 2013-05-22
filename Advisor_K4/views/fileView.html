@@ -5,7 +5,7 @@
             <a data-role="backbutton" data-align="left" id="backBtn" href="#fileView">Back</a>          
             
             <span data-role="view-title"></span>
-            <a data-role="button" data-align="right" id="addBtn" data-icon="add" onclick="javascript:addBtnClicked();"></a>
+            <a data-role="button" data-align="right" data-rel="modalview" href="#addFolderDialog" id="addBtn" data-icon="add" ></a>
             
 		</div>
         
@@ -47,18 +47,22 @@
      </div>
    </p>-->
     
-  <div id="addFolderDialog" >
+  <div id="addFolderDialog" data-role="modalview" style="width:70%;height:50%" >
       <p>
      <!-- <div data-role="content">        -->  
-          <input id="radio_d" type="radio" value="d" name="dir-or-file" checked />Directory
+          <p><input id="radio_d" type="radio" value="d" name="dir-or-file" checked onclick="javascript:directorySelected();" />Directory
           <input id="radio_f" type="radio" value="f" name="dir-or-file" onclick="javascript:showTextarea();"/>File
-           <br/>
-      	<input type="text" id="newFolderName" placeholder="New Name">      
-          <input type="button" id="createFolder" value="create"> 
+           </p>
+      	
       <!--</div>-->
-          
-           <textarea id="filetext" cols="30" rows="10" style="display:none"></textarea>
-          
+          <p><input type="text" id="newName" placeholder="New Name" style="vertical-align:top">      
+          <!--<input type="button" id="createBtn" value="create" onclick="javascript:createBtnClicked();">-->
+           <span data-role="button" id="createBtn" onclick="javascript:createBtnClicked();" style="margin-left:1em">Create</span>
+           <span data-role="button" id="cancelAddFolderBtn" onclick="javascript:closeAddFolderDiaog();" style="margin-left:1em">Cancel</span>
+           </p>
+          <div>
+           <textarea id="filetext" style="display:none;margin-left:10px;width:400px;height:200px"></textarea>
+          </div>
       </p>
 </div>
     
@@ -95,7 +99,7 @@
     	</div>-->
     </div>
     
-    
+ </div>   
     
     <!--<div id="fileField" type="text" readonly="readonly"></div>-->
     
@@ -129,7 +133,7 @@
 </div>-->
 
     
-<!-<div id="qqmenuOptions" style="width: 20em; height: 22em;" data-role="modalview" >
+<!--<div id="menuOptions" style="width: 20em; height: 22em;" data-role="modalview" >
     <ul data-role="listview" data-style="inset">
         <li><a onclick="javascript:openBtnClicked();">Open</a></li>
         <li><a onclick="javascript:copyBtnCLicked();">Copy</a></li>
@@ -140,7 +144,7 @@
     </ul>	  
 </div>-->
 
-<div id="menuOptions" style="width: 20em; height: 22em;">
+<!--<div id="menuOptions11" style="width: 20em; height: 22em;">
     <div>
     		<p><input type="button" id="addBtn" value="Add" href="javascript:addBtnClicked();"></p>
     	</div>
@@ -160,9 +164,9 @@
     		<p><input type="button" id="deleteBtn" value="Delete" href="javascript:deleteBtnClicked();"></p>
     	</div>
         
-</div>
+</div>-->
     
-</div>
+
 
 
 

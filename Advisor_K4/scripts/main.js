@@ -884,26 +884,26 @@ function onDeviceReady(){
 
 function getFileSystem(){
     
-    alert("getfilesystem");    
+  //  alert("getfilesystem---");    
     $('#backBtn').hide();
     $('#pasteBtn').removeAttr("onclick");
   //  $('#pasteBtn').contents().unwrap();
     
   //  $('#addFolderDialog').show();
     
-    openMenuOptions();
+   // openMenuOptions();
           
   
-  //  $('#menuOptions').hide();
-    $('#addFolderDialog').hide();
+   // $('#menuOptions').hide();
+   // $('#addFolderDialog').hide();
   
    
-  //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onGetFileSystemSuccess, onGetFileSystemFail); 
+  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onGetFileSystemSuccess, onGetFileSystemFail); 
 }
 
 function onGetFileSystemSuccess(fileSystem){
-            root = fileSystem.root;
-            listDir(root);
+    root = fileSystem.root;
+    listDir(root);
 }
 
 function onGetFileSystemFail(evt){
@@ -1020,7 +1020,7 @@ function clickItemAction(){
 	var pasteBtn = $('#pasteBtn');
     
     folders.live('click', function(){
-        alert("folder clicked");
+       // alert("folder clicked");
         var name = $(this).text();
         openMenuOptions();
      //   $('#menuOptions').show();
@@ -1040,7 +1040,7 @@ function clickItemAction(){
     });*/
     
     files.live('click', function(){
-        alert("file clicked");
+      //  alert("file clicked");
         var name = $(this).text();
         openMenuOptions();
        //$('#dirContent').hide();
@@ -1054,6 +1054,7 @@ function clickItemAction(){
         $('#dirContent').empty();
       //  alert("backBtn clicked");
       //  alert("backBtn clicked: parentDir="+ parentDir);
+        
         if(parentDir != null){            
             listDir(parentDir);
         } 
@@ -1181,10 +1182,22 @@ function openBtnClicked(){
     closeMenuOptions();
 }
 
+
 function deleteBtnClicked(){
+   // alert("deleteBtnClicked");
+    var msg = "Are you sure you want to remove " + activeItem.name + "?";
+   // alert("msg="+msg);
+    $('#confirmDeleteMsg').text(msg);
+    var confirmdelete = $('#deleteModal').data("kendoMobileModalView");
+   // alert("confirmdelete="+confirmdelete);
+    closeMenuOptions();
+    confirmdelete.open();
+}
+
+function deleteBtnClickedOld(){
   //  alert("activeItemType="+activeItemType);
-    var removeconfirm = confirm("Are you sure you want to remove "+ activeItem.name + "?");
-     //   alert("removeconfirm = "+ removeconfirm);
+    var removeconfirm = confirm("Are you sure you want to remove "+ activeItem.name + "?");   
+     
         if(activeItem != null && activeItemType != null && removeconfirm == true){
             if(activeItemType == 'd'){               
                 activeItem.removeRecursively(function(){
@@ -1274,6 +1287,39 @@ function pasteBtnCLicked(){
 		}
 }
 
+
+
+function cancelDeleteBtnClicked(){
+ //   alert("cancelDeleteBtnClicked");
+    closeDeleteConfirmModal();
+}
+
+function closeDeleteConfirmModal(){
+    $('#deleteModal').data("kendoMobileModalView").close();
+}
+
+function okDeleteBtnClicked(){
+   // alert("okDeleteBtnClicked");
+    if(activeItemType == 'd'){               
+                activeItem.removeRecursively(function(){
+                    console.log("removed recursively with success");
+                    listDir(currentDir);
+                },
+                function(error){
+                    console.log("remove recursively with error: "+ error.code);
+                });
+              }else if(activeItemType == 'f'){
+                  activeItem.remove(function(){
+                      console.log("removed file with success");
+                      listDir(currentDir);
+                  },
+                  function(error){
+                      console.log("removed file error: " + error.code);
+                  });
+              }
+    closeDeleteConfirmModal();
+}
+
 function getClipboardItem(action){
 	if( activeItem != null) {
 		clipboardItem = activeItem;
@@ -1282,11 +1328,11 @@ function getClipboardItem(action){
 }
 
 function addBtnClicked(){   
- //   alert("addBtnClicked");
+    alert("addBtnClicked");
     
     $('#addFolderDialog').show();
    // $('#menuOptions').hide();
-    $('#createFolder').click(function(){
+    $('#createBtn').click(function(){
         var filename = $('#newFolderName').val();
         var isDir = document.getElementById("radio_d").checked;
       //  alert("dirname="+filename);
@@ -1304,13 +1350,44 @@ function addBtnClicked(){
         
     });
  }
+
+function directorySelected(){
+    $('#filetext').hide(); 
+}
+
+
+function createBtnClicked(){
+  //  alert("createBtnClicked");
+    var filename = $('#newName').val();
+        var isDir = document.getElementById("radio_d").checked;
+      //  alert("dirname="+filename);
+     // alert("isDir="+isDir);
+        
+        if(isDir){
+            createDirectory(filename);  
+            }
+        else{
+            fileText = $('#filetext').val();
+          //  alert("filetext="+fileText);
+            createFile(filename);
+        }
+  closeAddFolderDiaog();
+
+}
+
+function closeAddFolderDiaog(){    
+    var dialog=$('#addFolderDialog').data("kendoMobileModalView");
+  //  alert("dialog="+dialog);
+    dialog.close();
+}
+
    
 
 function createDirectory(name){
   //  alert("createDirectory");  
     
     resetAddFolderDialog();
-    $('#addFolderDialog').hide();    
+  //  $('#addFolderDialog').hide();    
     $('#filetext').hide();   
   
     currentDir.getDirectory(name, {create: true, exclusive: false}, createDirectirtSuccess, createDirectoryFail);
@@ -1331,8 +1408,11 @@ function createFile(name){
   //  alert("createfile");
     
     resetAddFolderDialog();
-    $('#addFolderDialog').hide();
-    $('#filetext').hide();
+   // $('#addFolderDialog').hide();
+   $('#filetext').hide();
+    if(name.indexOf(".txt")==-1)
+        name=name+".txt";
+    //alert("file name="+name);
     currentDir.getFile(name, {create: true, exclusive: false}, createFileSuccess, createFilefail);
 }
 
@@ -1364,25 +1444,25 @@ function writeFilefail(error) {
     }
 
 
-function openMenuOptions(){
+function openMenuOptionsBlockui(){
     alert("blockui");
     $.blockUI({ message: $('#menuOptions')} ); 
 }
 
-function closeMenuOptions(){
+function closeMenuOptionsBlockui(){
     alert("blockui closeMenuOptions");
     $.unblockUI(); 
    return false; 
 }
 
-function openMenuOptionsModalView(){    
-    alert("openMenuOptions");
+function openMenuOptions(){    
+  //  alert("openMenuOptions");
     var win = $('#menuOptions').data("kendoMobileModalView");
-    alert("win="+win);
+  //  alert("win="+win);
     win.open();   
 }
 
-function closeMenuOptionsModalView(){
+function closeMenuOptions(){
     
     $('#menuOptions').data("kendoMobileModalView").close();
 }
@@ -1402,7 +1482,7 @@ function closeMenuOptionsPopover(){
 }
 
 function resetAddFolderDialog(){
-    $('#newFolderName').val('');
+    $('#newName').val('');
     $('#radio_d').attr("checked", true);
     $('#radio_f').attr("checked", false);
     $('#filetext').val('');
@@ -1460,7 +1540,7 @@ function showchartsWithStaticData(){
 }
 
 function getYearLabel(value){
-    alert("value="+value);
+  //  alert("value="+value);
     value = value.toString();
     return value.substring(0,4);
 }
@@ -1505,13 +1585,32 @@ function onGetPortfolioDataSuccess(data, args){
                 field: "Date",
                 majorGridLines:{visible:false},
                 labels: { template: "#= getYearLabel(value) #" ,
-                          rotation: -45
-                        }
-            
+                          rotation: -45,
+                         step: 12
+                        },
+                           
             },
-        tooltip:{visible: true, background:"orange"}                
+        tooltip:{visible: true, background:"orange", format: "{0:C}"}                
+    });
+    
+    $('#bestWorstAvgRtnChart').kendoChart({
+        dataSource: { data: data.Portfolio.BestWorstAverageReturns_._BestWorstAverageReturns },
+        title:{text: "Holding Periods Volatility"},
+        legend:{positon: "bottom"},
+        dateField: "Year",
+        series:[ {stack:true, type:"column",
+                    field: "WorstRet"},
+            { type: "column",
+                field: "BestRet"           
+            },           
+            { type:"line", field: "AvgRet"}
+            ],
+        
     });
 }
+
+
+
     
 
 

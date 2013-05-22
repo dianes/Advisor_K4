@@ -29,7 +29,7 @@
     </head>
     <body>
         <div data-role="view" id="tabstrip-home" data-title="Thomson One Advisor">
-            <h1>Welcome! 4</h1>
+            <h1>Welcome! 4-1</h1>
             <p>
                 
             </p>
@@ -381,7 +381,25 @@
         </script>
         
    
+<div id="menuOptions" style="width: 20em; height: 22em;" data-role="modalview" >
+    <ul data-role="listview" data-style="inset">
+        <li><a onclick="javascript:openBtnClicked();">Open</a></li>
+        <li><a onclick="javascript:copyBtnCLicked();">Copy</a></li>
+        <li><a onclick="javascript:moveBtnCLicked();">Move</a></li>
+        <li><a onclick="javascript:pasteBtnCLicked();" id="pasteBtn">Paste</a></li>
+        <li><a onclick="javascript:deleteBtnClicked();">Delete</a></li>
+        <li><a onclick="javascript:closeMenuOptions();">Cancel</a></li>
+    </ul>	  
+</div>  
         
+<div id="deleteModal" style="width:20em; height:15em;" data-role="modalview">
+    <div id="confirmDeleteMsg" style="text-align:center;vertical-align:middle;font-size:1.2em;margin-top:2em"></div>
+    <div style="text-align:center;margin-top:2em">
+        <span data-role="button" id="cancelDeleteBtn" data-click="cancelDeleteBtnClicked">Cancel</span>
+        <span data-role="button" id="okDeleteBtn" data-click="okDeleteBtnClicked">OK</span>
+    </div>
+    
+</div>
         
         
 
