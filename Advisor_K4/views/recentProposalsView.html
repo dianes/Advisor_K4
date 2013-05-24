@@ -1,0 +1,49 @@
+<div data-role="view" id="recentProposalsView" data-title="Recent Proposals" data-init="getProposalList">
+	<header data-role="header">
+		<div data-role="navbar">
+            <a data-role="backbutton" data-align="left">Back</a>
+            <span data-role="view-title"></span>            
+		</div>
+	</header>
+    <div id="recentProposalsViewContent" data-role="content">
+		<!-- List of contacts -->
+        <ul data-role="listview" data-style="inset" data-type="group">
+            <li>
+                <ul id="proposallist" data-role="listview" data-style="inset"></ul>
+            </li>
+        </ul>
+	</div>
+</div>
+
+<script type="text/x-kendo-template" id="recentproposal-listview-template">
+    <a href="\#proposalSummaryView?propId=${ProposalId}&amp;partyId=${PartyID}&amp;partyType=${PartyType}" style="text-decoration:none;">${ProposalName}            
+            <p class="contact-type">${PartyType}</p>
+    </a>
+</script>
+
+
+<div data-role="view" id="proposalSummaryView" data-title="Proposal Summary" data-align="left" data-show="getProposalSummary" >
+	<header data-role="header">
+		<div data-role="navbar">
+            <a data-role="backbutton" data-align="left">Back</a>
+            <span data-role="view-title"></span>
+		</div>
+	</header>
+    
+    <div id="proposalSummaryViewContent" data-role="content">
+        <div class="ui-grid-b" id="chartarea">
+	        <div class="ui-block-a">
+		        <div id="initportChart" style="margin-bottom:1.5em"></div>
+	        </div>
+    	    <div class="ui-block-b">
+    		    <div id="modelportChart" style="margin-bottom:1.5em"></div>
+    	    </div>
+    	    <div class="ui-block-c">
+    		    <div id="recportChart" style="margin-bottom:1.5em"></div>
+    	     </div>
+        </div>
+        
+        <div id="portfolioCompGrid"></div>
+     </div>
+    
+</div>

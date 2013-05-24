@@ -237,6 +237,11 @@ body
 }
 
 
+   #a, #b {
+        display: none;
+    }
+
+
 
 
 

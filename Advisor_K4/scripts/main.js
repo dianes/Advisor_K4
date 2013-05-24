@@ -874,8 +874,9 @@ function onErrorShowMap(error) {
 }
 */
 function onDeviceReady(){
-    debugger;
- //   alert("onDeviceReady");
+   // debugger;
+   // alert("onDeviceReady");
+    
     clickItemAction();
     
   
@@ -910,7 +911,15 @@ function onGetFileSystemFail(evt){
           //  console.log(evt.target.error.code);
 }    
 
-function listDir(directoryEntry){    
+function listDir(directoryEntry){  
+    alert("listdir");
+    alert("directoryentry.fullPath="+directoryEntry.fullPath);
+    var ff=$('#filefield'); alert("ff="+ff);
+    $('#fileField').html(directoryEntry.fullPath);
+   // var fileDiv = document.getElementById("fileField")
+   // alert("fileDiv="+fileDiv);
+  //  fileDiv.innerText = directoryEntry.fullPath;
+    
  //   alert("listdir of " + directoryEntry.name);
     if(!directoryEntry.isDirectory)
         console.log("listdir incorrect type");
@@ -1609,7 +1618,276 @@ function onGetPortfolioDataSuccess(data, args){
     });
 }
 
+function registerTab(){
+    alert("registertab");
+    /*$('#tabstrip').kendoTabStrip({
+        animation: {
+                    open:{effects:"fadeIn"}
+        }
+    });*/
+    $('div[data-role="navbar"] a').live('click', function () {
+    $(this).addClass('ui-btn-active');
+    $('div.content_div').hide();
+    $('div#' + $(this).attr('data-href')).show();
+    });
+}
 
+
+//proposals
+
+function getProposalList(){
+    alert("getProposalList");
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetRecentProposals";
+    var param = '{instId:' + instId + ', brokerId:' + bId + '}'; 
+    if(LOCAL){        
+        data = JSON.parse(RECENTCONTACT_DATA);
+        onGetProposalListSuccess(data, args);
+    }
+    else{    
+        ajaxCall(url, param, onGetProposalListSuccess, data, args);  
+    }
+}
+
+function onGetProposalListSuccess(data, args){
+    alert("onGetProposalListSuccess");
+    $("#proposallist").kendoMobileListView({
+			dataSource: data.List,
+			template: $("#recentproposal-listview-template").html(),
+            style: "inset"            
+             
+    });          
+}
+
+
+function getProposalSummary(e){
+    alert("getProposalsummary");
+    var partyId = e.view.params.partyId;
+    var partyType = e.view.params.partyType;
+    var propId = e.view.params.propId;
+    alert("partyId="+partyId+", partyType=" + partyType + ", propId="+ propId);
+    
+    alert("getProposalsummary");
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetProposalSummary";
+    var param = '{instId:' + instId + ', brokerId:' + bId + ',groupId:' + instId + ',householdId:"' + partyId +
+                '", propId: ' + propId + ',partyId:"' + partyId + '", partyType: "Proposal"}';
+    alert("param="+param);
+    if(LOCAL){        
+        data = JSON.parse(RECENTCONTACT_DATA);
+        onGetProposalListSuccess(data, args);
+    }
+    else{    
+        ajaxCall(url, param, onGetProposalSummarySuccess, data, args);
+    }
+}
+
+function onGetProposalSummarySuccess(data, args){
+    alert("onGetProposalSummarySuccess");
+    debugger;
+    createComparisonChart(data.Worksheet.ACList);
+    createPortfolioCompGrid(data.Worksheet.ACList);
+    
+}
+
+
+function createComparisonChart(list){
+    
+    var dataArray = [];
+    var colorArray=[];
+   
+    for(var i=0; i<list.Count; i++){
+      //  dataArray[i]=list[i].InitialPCT;      
+        colorArray[i]="rgb(" + list.List[i].Red + "," + list.List[i].Green + "," + list.List[i].Blue + ")";
+       // alert("colorArray="+ colorArray[i]);
+    }
+    
+   // alert("dataArray=" + dataArray);    
+   
+    
+    $("#initportChart").kendoChart({
+        dataSource: {data: list.List},
+        title: {
+                    position:"bottom",
+                    text: "Current"
+            },
+        legend: {
+                    visible: false
+        },
+        chartArea: {
+            background: ""
+        },
+        seriesDefaults: {
+          /*  labels: {
+                visible: true,
+                background: "transparent",
+                template: "${category}(${value}%)"
+            }*/
+        },
+        series:[{
+                type: "pie",
+                startAngle: 150,
+                field: "InitialPCT",
+                categoryField: "Name"                
+            
+        }],
+        seriesColors: colorArray,
+        tooltip: {
+            visible: true,
+            format: "{0}%"
+        },
+        drag: onDrag,
+        zoom: onZoom,
+        plotAreaClick: onPlotAreaClick,
+       // seriesClick: onSeriesClick,
+       // seriesHover: onSeriesHover        
+    });
+    
+    
+    $("#modelportChart").kendoChart({
+        dataSource: {data: list.List},
+        title: {
+                    position:"bottom",
+                    text: "Model"
+            },
+        legend: {
+                    visible: false
+        },
+        chartArea: {
+            background: ""
+        },
+        seriesDefaults: {
+          /*  labels: {
+                visible: true,
+                background: "transparent",
+                template: "${category}(${value}%)"
+            }*/
+        },
+        series:[{
+                type: "pie",
+                startAngle: 150,
+                field: "ModelPCT",
+                categoryField: "Name"                
+            
+        }],
+        seriesColors: colorArray,
+        tooltip: {
+            visible: true,
+            format: "{0}%"
+        },
+        drag: onDrag,
+        zoom: onZoom,
+        plotAreaClick: onPlotAreaClick,
+       // seriesClick: onSeriesClick,
+       // seriesHover: onSeriesHover        
+    });
+    
+    $("#recportChart").kendoChart({
+        dataSource: {data: list.List},
+        title: {
+                    position:"bottom",
+                    text: "Recommended"
+            },
+        legend: {
+                    visible: false
+        },
+        chartArea: {
+            background: ""
+        },
+        seriesDefaults: {
+          /*  labels: {
+                visible: true,
+                background: "transparent",
+                template: "${category}(${value}%)"
+            }*/
+        },
+        series:[{
+                type: "pie",
+                startAngle: 150,
+                field: "TargetPCT",
+                categoryField: "Name"                
+            
+        }],
+        seriesColors: colorArray,
+        tooltip: {
+            visible: true,
+            format: "{0}%"
+        },
+        drag: onDrag,
+        zoom: onZoom,
+        plotAreaClick: onPlotAreaClick,
+       // seriesClick: onSeriesClick,
+       // seriesHover: onSeriesHover        
+    });
+}
+
+
+function createPortfolioCompGrid(list){
+    
+    alert("createComparisonTable");
+    var dataArray = [];
+    for(var i=0; i<list.Count; i++){
+        dataArray[i] = list.List[i];
+        dataArray[i].color = "rgb(" + list.List[i].Red + "," + list.List[i].Green + "," + list.List[i].Blue + ")";
+    }
+   // debugger;
+    
+     
+    
+    $("#portfolioCompGrid").kendoGrid({
+                        dataSource: dataArray,
+                      //  rowTemplate: kendo.template($("#assetsTemplate").html()),      
+                    
+                       columns: [
+                      { field: "color",
+                        title: " ",
+                        width: "10%",                        
+                        attributes:{
+                            style: "background-color:#:color#;width:5%",
+                        template: " "
+                            
+                        } 
+                      },
+                     {
+                         field: "Name",
+                         title: "Asset Class",
+                         headerAttributes:{
+                             style: "text-align:left"
+                         },
+                         width: "50%"
+                     },
+                     {    
+                         field: "InitialPCT",
+                         title: "CURR%",
+                         headerAttributes:{
+                             style: "text-align:right"
+                         }
+                       },
+                         
+                       {    
+                         field: "ModelPCT",
+                         title: "MODEL%",
+                         headerAttributes:{
+                             style: "text-align:right"
+                         }
+                     },
+        
+                       {    
+                         field: "TargetPCT",
+                         title: "REC.%",
+                         headerAttributes:{
+                             style: "text-align:right"
+                         }
+                     }
+                    
+                 ],
+        
+                editable:true,
+                        
+                    });
+    
+    
+
+    
+}
 
     
 

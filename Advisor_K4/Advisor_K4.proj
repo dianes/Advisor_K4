@@ -37,6 +37,7 @@
     <Folder Include="kendo\js" />
     <Folder Include="kendo\styles" />
     <Folder Include="kendo\styles\images" />
+    <Folder Include="Reports" />
     <Folder Include="scripts" />
     <Folder Include="styles" />
     <Folder Include="views" />
@@ -88,6 +89,12 @@
     <Content Include="kendo\styles\images\KendoUI.ttf" />
     <Content Include="kendo\styles\images\KendoUI.woff" />
     <Content Include="kendo\styles\kendo.mobile.all.min.css" />
+    <Content Include="Reports\AP Accumulation Portfolio.pdf" />
+    <Content Include="Reports\NetWorth Report.pdf" />
+    <Content Include="Reports\Proposal Report.pdf" />
+    <Content Include="Reports\Select Separate Account.pdf" />
+    <Content Include="Reports\Alliance Large-Cap Core.pdf" />
+    <Content Include="Reports\Anchor All-Cap Value.pdf" />
     <Content Include="scripts\blockUI.js" />
     <Content Include="scripts\data.js" />
     <Content Include="scripts\hello-world.js" />
@@ -107,7 +114,7 @@
     <Content Include="views\fileView.html" />
     <Content Include="views\modelSearchView.html" />
     <Content Include="views\recentContactsView.html" />
-    <Content Include="views\recentModelsView.html" />
+    <Content Include="views\recentProposalsView.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Telerik\ICE\Tools\Mobile\MobileTools.targets" />
 </Project>
