@@ -1666,7 +1666,9 @@ function getProposalSummary(e){
     var propId = e.view.params.propId;
     alert("partyId="+partyId+", partyType=" + partyType + ", propId="+ propId);
     
-    alert("getProposalsummary");
+    resetComparisonChart();
+    resetPortfolioCompGrid()
+    
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetProposalSummary";
     var param = '{instId:' + instId + ', brokerId:' + bId + ',groupId:' + instId + ',householdId:"' + partyId +
                 '", propId: ' + propId + ',partyId:"' + partyId + '", partyType: "Proposal"}';
@@ -1688,6 +1690,15 @@ function onGetProposalSummarySuccess(data, args){
     
 }
 
+function resetComparisonChart(){
+    $("#initportChart").empty();
+    $("#modelportChart").empty();
+    $("#recportChart").empty();
+}
+
+function resetPortfolioCompGrid(){
+    $('#portfolioCompGrid').empty();
+}
 
 function createComparisonChart(list){
     
@@ -1834,7 +1845,7 @@ function createPortfolioCompGrid(list){
     
     $("#portfolioCompGrid").kendoGrid({
                         dataSource: dataArray,
-                      //  rowTemplate: kendo.template($("#assetsTemplate").html()),      
+                        rowTemplate: kendo.template($("#portfolioCompTemplate").html()),      
                     
                        columns: [
                       { field: "color",
@@ -1842,7 +1853,7 @@ function createPortfolioCompGrid(list){
                         width: "10%",                        
                         attributes:{
                             style: "background-color:#:color#;width:5%",
-                        template: " "
+                        
                             
                         } 
                       },
@@ -1856,23 +1867,25 @@ function createPortfolioCompGrid(list){
                      },
                      {    
                          field: "InitialPCT",
-                         title: "CURR%",
+                         title: "CURR",
                          headerAttributes:{
                              style: "text-align:right"
-                         }
+                         },
+                     
                        },
                          
                        {    
                          field: "ModelPCT",
-                         title: "MODEL%",
+                         title: "MODEL",
                          headerAttributes:{
                              style: "text-align:right"
-                         }
+                         },
+                       
                      },
         
                        {    
                          field: "TargetPCT",
-                         title: "REC.%",
+                         title: "REC.",
                          headerAttributes:{
                              style: "text-align:right"
                          }

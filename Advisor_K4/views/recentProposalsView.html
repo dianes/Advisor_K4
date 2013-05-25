@@ -31,19 +31,33 @@
 	</header>
     
     <div id="proposalSummaryViewContent" data-role="content">
-        <div class="ui-grid-b" id="chartarea">
-	        <div class="ui-block-a">
-		        <div id="initportChart" style="margin-bottom:1.5em"></div>
-	        </div>
-    	    <div class="ui-block-b">
-    		    <div id="modelportChart" style="margin-bottom:1.5em"></div>
-    	    </div>
-    	    <div class="ui-block-c">
-    		    <div id="recportChart" style="margin-bottom:1.5em"></div>
-    	     </div>
-        </div>
+        <ul data-role="listview" data-style="inset">
+            <li>
+                <div class="ui-grid-b" id="chartarea">
+        	        <div class="ui-block-a">
+        		        <div id="initportChart" style="margin-bottom:1.5em"></div>
+        	        </div>
+            	    <div class="ui-block-b">
+            		    <div id="modelportChart" style="margin-bottom:1.5em"></div>
+            	    </div>
+            	    <div class="ui-block-c">
+            		    <div id="recportChart" style="margin-bottom:1.5em"></div>
+            	     </div>
+                </div>
+            </li>
+       </ul>
         
-        <div id="portfolioCompGrid"></div>
+        <div id="portfolioCompGrid" style="margin-left:1em;margin-right:1em"></div>
      </div>
     
-</div>
+</div> 
+
+<script id="portfolioCompTemplate" type="text/x-kendo-template">   
+    <tr>
+       <td style="background-color:#:color#;width:5%"></td>
+       <td id="assetname" style="font-weight:normal;text-align:left;width:50%">#:Name#</td>
+       <td id="initialpct" style="font-weight:normal;text-align:right">#= kendo.toString(InitialPCT, "0.00")#%</td>
+        <td id="modelpct" style="font-weight:normal;text-align:right">#= kendo.toString(ModelPCT, "0.00")#%</td>
+       <td id="recpct" style="font-weight:normal;text-align:right">#= kendo.toString(TargetPCT,"0.00")#%</td> 
+    </tr>
+</script>
