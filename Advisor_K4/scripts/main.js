@@ -605,17 +605,17 @@ function onGetArchivedReportsSuccess(data, args){
                             title: "Report Name"   ,
                             template: "#:Report_name# <a onclick='javascript:downloadFile(\"${Report_location}\",\"#:Report_filename#\");'><img src='images/file-download.png' /></a>",
                           
-                            width: "60%"
+                            width: "80%"
                           //  template: "<div title='#=Sec_name#' style='color:\\#7AADDE'>#:Sec_symbol#</div>"              
                                               
                         },
-                        {field: "Report_filename", title: "name"}
+                       /* {field: "Report_filename", title: "name"}*/
        
-                      /* {
+                      {
                             field: "Last_modified",
                             title: "Last Modified",
                           
-                        },*/
+                        }
                        /* {
                             field: "Report_location",
                             template: "<img src='../images/filedownload.png' />"
