@@ -78,6 +78,7 @@
     <Content Include="images\address_24.png" />
     <Content Include="images\close.png" />
     <Content Include="images\coloricons-sprite.png" />
+    <Content Include="images\file-download.png" />
     <Content Include="images\file.png" />
     <Content Include="images\folder.png" />
     <Content Include="images\folder_h.png" />

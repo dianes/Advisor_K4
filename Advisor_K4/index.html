@@ -209,35 +209,37 @@
                    <ul data-role="listview" data-style="inset" data-type="group">
                         <li>
                             Allocation Breakdown
-                            <ul data-role="listview" data-style="inset">  
+                            <!--<ul data-role="listview" data-style="inset">  
                                 
                                 <li>
                                        <div id="chart"></div>
                                 </li>
                                 <li>
                                         <div id="assetsTable"></div>  
-                                    <!--<table id="assetsTable">              
-                                        <thead>
-                                            <tr>
-                                                <th style="width:5%">
-                                                    
-                                                </th>
-                                                <th style="width:50%">
-                                                    Asset
-                                                </th>                                                
-                                                <th style="text-align:right">
-                                                    %
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                        </tbody>
-                                    </table>   -->
-                                        
+                                                                            
                                 </li>
+                            </ul>-->
+                            <ul data-role="listview" data-style="inset">
+                                 <li>
+                                     <div class="ui-grid-a" id="chartarea">
+                            	        <div class="ui-block-a">
+                            		        <div id="chart"></div>
+                            	        </div>
+                                	    <div class="ui-block-b">
+                                		    <div id="assetsTable" style="margin-top:5em"></div>
+                                	     </div>                                 
+                                    </div>
+                                  </li>                                
                             </ul>
                         </li>
+                       <li>
+                             Archived Reports
+                               <ul data-role="listview" data-style="inset">
+                                 <li>
+                                     <div id="archivedRpts"></div>
+                                 </li>
+                               </ul>
+                       </li>
                     </ul>               
                 </div>
             </div>

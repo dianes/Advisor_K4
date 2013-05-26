@@ -571,9 +571,88 @@ function getAcctDetail(e)
         data = JSON.parse(ACCOUNTSNAPSHOT_DATA);
         onGetAcctDetailSuccess(data, args);
     }else{
-        ajaxCall(url, param, onGetAcctDetailSuccess, data, args);}
+        ajaxCall(url, param, onGetAcctDetailSuccess, data, args);
     }
     
+    getArchivedReports(hhId, acctId);
+}
+
+function getArchivedReports(hhId, acctId){
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetArchiveReports";
+    var param = '{acctId:"' + acctId + '", householdId:' + hhId + ',instId:' + instId + ',brokerId:' + bId + '}';
+    if(LOCAL){        
+        data = JSON.parse(ARCHIVEDREPORT_DATA);
+        onGetAcctDetailSuccess(data, args);
+    }else{
+        ajaxCall(url, param, onGetArchivedReportsSuccess, data, args);
+    }
+}
+
+function onGetArchivedReportsSuccess(data, args){
+    debugger;
+    for(var i=0;i<data.BusinessObjects.length;i++){
+        alert("Report_filename="+data.BusinessObjects[i].Report_filename);
+        data.BusinessObjects[i].Report_filename = data.BusinessObjects[i].Report_filename.replace(/\\/g, "/");
+        alert("after replace data.BusinessObjects[i].Report_filename="+ data.BusinessObjects[i].Report_filename);
+    }
+    
+    $("#archivedRpts").kendoGrid({
+                                dataSource: {data: data.BusinessObjects                              
+                    },                                
+                    columns: [                       
+                        {
+                            field: "Report_name",
+                            title: "Report Name"   ,
+                            template: "#:Report_name# <a onclick='javascript:downloadFile(\"${Report_location}\",\"#:Report_filename#\");'><img src='images/file-download.png' /></a>",
+                          
+                            width: "60%"
+                          //  template: "<div title='#=Sec_name#' style='color:\\#7AADDE'>#:Sec_symbol#</div>"              
+                                              
+                        },
+                        {field: "Report_filename", title: "name"}
+       
+                      /* {
+                            field: "Last_modified",
+                            title: "Last Modified",
+                          
+                        },*/
+                       /* {
+                            field: "Report_location",
+                            template: "<img src='../images/filedownload.png' />"
+                        }*/
+                        
+                    ],
+                });
+}
+    
+function downloadFile(location,filename){
+    
+    alert("filename="+filename);
+    var name = filename.replace("\\\\","/");
+    
+    var url = "http://10.253.2.198" + location + "/" + name;
+    alert("download source file = "+ url);
+    
+    var fileTransfer = new FileTransfer();
+    var filePath = root.fullPath + "/Downloads";
+    
+    alert("dest path" + filePath);
+
+   /* fileTransfer.download(
+    url,
+    filePath,
+    function(entry) {
+        alert("download completed");
+        console.log("download complete: " + entry.fullPath);
+    },
+    function(error) {
+        console.log("download error source " + error.source);
+        console.log("download error target " + error.target);
+        console.log("upload error code" + error.code);
+    });
+    */
+    
+}
 
 function onGetAcctDetailSuccess(data, args)
 {
