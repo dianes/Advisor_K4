@@ -249,7 +249,7 @@
     <tr>
        <td style="background-color:#:color#;width:5%"></td>
        <td id="assetname" style="font-weight:normal;text-align:left;width:70%">#:name#</td>
-       <td id="assetpct" style="font-weight:normal;text-align:right">#:pct#%</td>    
+       <td id="assetpct" style="font-weight:normal;text-align:right">#:kendo.toString(pct,"0.00")#</td>    
     </tr>
 </script>
         
@@ -371,7 +371,7 @@
                     <a href="#tabstrip-home" data-icon="home">Home</a>
                     <a href="views/recentContactsView.html" data-icon="globe">Households</a>
                     <a href="views/recentProposalsView.html" data-icon="featured">Proposals</a>
-                    <a href="views/fileView.html" data-icon="organize">My Files</a>
+                    <a href="views/fileView.html" data-icon="organize">Files</a>
                     <a href="views/chartsView.html">Charts</a>
                 </div>
             </div>
@@ -404,6 +404,6 @@
 </div>
         
         
-
+<!--<div id="fileField" type="text" readonly="readonly" style="vertical-align:bottom;background:brown;color:while"></div>-->
     </body>
 </html>

@@ -181,7 +181,7 @@ body
 
 
 /* start for treeview */
-.demo-section 
+/*.demo-section 
 {
     width: 200px;
 }
@@ -195,7 +195,7 @@ body
 .pdf { background-position: 0 -32px; }
 .html { background-position: 0 -48px; }
 .image { background-position: 0 -64px; }
-
+*/
 /* end for treeview */
 
 /* start for jquery grid folder/file */
@@ -239,6 +239,16 @@ body
 
    #a, #b {
         display: none;
+    }
+
+
+
+.photo {
+        width: 64px;
+        height: 64px;
+        border-radius: 3px;
+        float: left;
+        margin-right: 10px;
     }
 
 

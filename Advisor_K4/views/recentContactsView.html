@@ -86,8 +86,10 @@
 </script>-->
 
 <script type="text/x-kendo-template" id="recentcontact-listview-template">
+    <img src="images/default-portrait.png" class="photo" id="defaultImage"/>
     <a href="\#hhProfileView?hhId=${hh_id}" style="text-decoration:none;">${lname}, ${fname}              
             <p class="contact-type">${type}</p>
+            <div data-role="button" id="pictureBtn_${inv_id}" onclick="javascript:takePicture(${inv_id});" style="font-size:10px" >Capture</div>
     </a>
 </script>
 

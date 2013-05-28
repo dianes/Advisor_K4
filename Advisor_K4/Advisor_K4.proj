@@ -37,6 +37,7 @@
     <Folder Include="kendo\js" />
     <Folder Include="kendo\styles" />
     <Folder Include="kendo\styles\images" />
+    <Folder Include="Downloads" />
     <Folder Include="Reports" />
     <Folder Include="scripts" />
     <Folder Include="styles" />
@@ -78,6 +79,7 @@
     <Content Include="images\address_24.png" />
     <Content Include="images\close.png" />
     <Content Include="images\coloricons-sprite.png" />
+    <Content Include="images\default-portrait.png" />
     <Content Include="images\file-download.png" />
     <Content Include="images\file.png" />
     <Content Include="images\folder.png" />
@@ -96,7 +98,6 @@
     <Content Include="Reports\Select Separate Account.pdf" />
     <Content Include="Reports\Alliance Large-Cap Core.pdf" />
     <Content Include="Reports\Anchor All-Cap Value.pdf" />
-    <Content Include="scripts\blockUI.js" />
     <Content Include="scripts\data.js" />
     <Content Include="scripts\hello-world.js" />
     <Content Include="scripts\jquery.mobile-1.2.0.min.js" />

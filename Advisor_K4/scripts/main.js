@@ -16,6 +16,8 @@ var clipboardItem = null;
 var clipboardItemAction = null;
 var fileText = null;
 
+var currentInvId = null;
+
 
 window.addEventListener('load', function(){
     document.addEventListener('deviceready', onDeviceReady, false);}, false);
@@ -374,7 +376,7 @@ function onContactSearchSuccess(data, args){
     $("#tblDiv .k-grid-header").remove(); 
     $("#contactsearchlist").kendoMobileListView({
 			dataSource: data.List,
-			template: $("#contactsearch-listview-template").html(),
+			template: $("#recentcontact-listview-template").html(),
             style: "inset" 
 		}).show();          
 }
@@ -564,6 +566,7 @@ function getAcctDetail(e)
     $("#holdingsInfo").empty();
     $("#chart").empty();
     $("#assetsTable").empty();    
+    $('#archivedRpts').empty();
  
     var param = '{acctId:"' + acctId + '", householdId:' + hhId + ', planId: 0, partyId:0, partyType: "Household", acViewId: -1}';    
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetAccountSnapshot";
@@ -582,7 +585,7 @@ function getArchivedReports(hhId, acctId){
     var param = '{acctId:"' + acctId + '", householdId:' + hhId + ',instId:' + instId + ',brokerId:' + bId + '}';
     if(LOCAL){        
         data = JSON.parse(ARCHIVEDREPORT_DATA);
-        onGetAcctDetailSuccess(data, args);
+        onGetArchivedReportsSuccess(data, args);
     }else{
         ajaxCall(url, param, onGetArchivedReportsSuccess, data, args);
     }
@@ -591,9 +594,9 @@ function getArchivedReports(hhId, acctId){
 function onGetArchivedReportsSuccess(data, args){
     debugger;
     for(var i=0;i<data.BusinessObjects.length;i++){
-        alert("Report_filename="+data.BusinessObjects[i].Report_filename);
+      //  alert("Report_filename="+data.BusinessObjects[i].Report_filename);
         data.BusinessObjects[i].Report_filename = data.BusinessObjects[i].Report_filename.replace(/\\/g, "/");
-        alert("after replace data.BusinessObjects[i].Report_filename="+ data.BusinessObjects[i].Report_filename);
+      //  alert("after replace data.BusinessObjects[i].Report_filename="+ data.BusinessObjects[i].Report_filename);
     }
     
     $("#archivedRpts").kendoGrid({
@@ -603,7 +606,7 @@ function onGetArchivedReportsSuccess(data, args){
                         {
                             field: "Report_name",
                             title: "Report Name"   ,
-                            template: "#:Report_name# <a onclick='javascript:downloadFile(\"${Report_location}\",\"#:Report_filename#\");'><img src='images/file-download.png' /></a>",
+                            template: "<a onclick='javascript:downloadFile(\"${Report_location}\",\"#:Report_filename#\");'>#:Report_name#<img src='images/file-download.png' style='text-decoration:none' /></a>",
                           
                             width: "80%"
                           //  template: "<div title='#=Sec_name#' style='color:\\#7AADDE'>#:Sec_symbol#</div>"              
@@ -627,30 +630,40 @@ function onGetArchivedReportsSuccess(data, args){
     
 function downloadFile(location,filename){
     
-    alert("filename="+filename);
+  //  alert("filename="+filename);
     var name = filename.replace("\\\\","/");
     
     var url = "http://10.253.2.198" + location + "/" + name;
-    alert("download source file = "+ url);
-    
+ //   alert("download source file = "+ url);
+    var name = filename.substring(filename.lastIndexOf("/") + 1);
+ //   alert("name="+name);
     var fileTransfer = new FileTransfer();
-    var filePath = root.fullPath + "/Downloads";
+    var filePath = root.fullPath + "/Downloads/" + name;
     
-    alert("dest path" + filePath);
+  //  alert("dest path" + filePath);
 
-   /* fileTransfer.download(
+    fileTransfer.download(
     url,
     filePath,
     function(entry) {
         alert("download completed");
+        currentDir = root;
+      //  alert("currentDir="+currentDir);
+        getActiveItem("Downloads", "d");
+       // alert("activeItem="+activeItem);       
+       
+        document.location.href="#views/fileView.html";
         console.log("download complete: " + entry.fullPath);
     },
     function(error) {
+        alert("download error source " + error.source);
+        alert("download error target " + error.target);
+        alert("download error code" + error.code);
         console.log("download error source " + error.source);
         console.log("download error target " + error.target);
-        console.log("upload error code" + error.code);
+        console.log("download error code" + error.code);
     });
-    */
+    
     
 }
 
@@ -953,11 +966,9 @@ function onErrorShowMap(error) {
 }
 */
 function onDeviceReady(){
-   // debugger;
-   // alert("onDeviceReady");
-    
-    clickItemAction();
-    
+    alert("ondeviceready");
+   // clickItemAction();
+    getFileSystem();
   
 }
 
@@ -965,35 +976,50 @@ function onDeviceReady(){
 function getFileSystem(){
     
   //  alert("getfilesystem---");    
-    $('#backBtn').hide();
-    $('#pasteBtn').removeAttr("onclick");
-  //  $('#pasteBtn').contents().unwrap();
-    
-  //  $('#addFolderDialog').show();
-    
-   // openMenuOptions();
-          
-  
-   // $('#menuOptions').hide();
-   // $('#addFolderDialog').hide();
-  
-   
-  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onGetFileSystemSuccess, onGetFileSystemFail); 
+ //   $('#backBtn').hide();
+  //  $('#pasteBtn').removeAttr("onclick");
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onGetFileSystemSuccess, onGetFileSystemFail); 
 }
 
 function onGetFileSystemSuccess(fileSystem){
     root = fileSystem.root;
-    listDir(root);
+  //  listDir(root);
 }
 
 function onGetFileSystemFail(evt){
-          //  console.log(evt.target.error.code);
-}    
+         // console.log(evt.target.error.code);
+}   
 
-function listDir(directoryEntry){  
-    alert("listdir");
-    alert("directoryentry.fullPath="+directoryEntry.fullPath);
-    var ff=$('#filefield'); alert("ff="+ff);
+function getMyFiles(){    
+   // debugger;
+ //   alert("getMyFiles");
+  //  alert("getMyfiles, activeItem="+activeItem);
+       
+    clickItemAction();
+  //  alert("after clickitemaction");
+   /* if(root == null)
+        getFileSystem();*/
+  //  alert("after getfile system");
+  //  alert("root name = " + root.name);
+    $('#backBtn').hide();
+    $('#pasteBtn').removeAttr("onclick");
+    //in case directory "dir" is passed in, list the dir 
+    if(activeItem ==null){
+     //   alert("listing root " + root.name );
+        listDir(root);
+        }
+    else
+    {
+      //  alert("listing activeItem.name " + activeItem.name);
+        listDir(activeItem);
+        }
+}
+ 
+
+function listDir(directoryEntry){      
+  //  alert("listdir");
+    alert("listdir: directoryentry.fullPath="+directoryEntry.fullPath);
+    var ff=$('#filefield'); 
     $('#fileField').html(directoryEntry.fullPath);
    // var fileDiv = document.getElementById("fileField")
    // alert("fileDiv="+fileDiv);
@@ -1004,10 +1030,10 @@ function listDir(directoryEntry){
         console.log("listdir incorrect type");
     
     currentDir = directoryEntry;
- //   alert("currentdir="+ currentDir.name);
+    alert("currentdir="+ currentDir.name);
     directoryEntry.getParent(function(par){
         parentDir = par;
-  //      alert("parentDir.name="+parentDir.name);
+    //   alert("parentDir.name="+parentDir.name);
         if((parentDir.name == 'sdcard' && currentDir.name != 'sdcard' ) || parentDir.name != 'sdcard')
             $('#backBtn').show();
         }, 
@@ -1139,14 +1165,15 @@ function clickItemAction(){
     });
     
     backBtn.live('click', function(){
-        $('#dirContent').empty();
-      //  alert("backBtn clicked");
-      //  alert("backBtn clicked: parentDir="+ parentDir);
+     //   $('#dirContent').empty();
+        alert("backBtn clicked");
+       alert("backBtn clicked: parentDir="+ parentDir.name);
         
-        if(parentDir != null){            
+        if(parentDir != null){     
+            alert("listing parendir" + parentDir.name);
             listDir(parentDir);
         } 
-      //  $('#menuOptions').hide();
+      
         $('#addFolderDialog').hide();
     });
     
@@ -1169,14 +1196,16 @@ function clickItemAction(){
     
     
 function getActiveItem(name, type){
-  //  alert("getactiveItem, name=" + name + " type=" +type);   
+   // alert("getactiveItem, name=" + name + " type=" +type + ",currentDir.name=" + currentDir.name);   
     if(type=='d' && currentDir != null){
         currentDir.getDirectory(name, {create:false},
             function(dir){
+              //  alert("getactiveItem success, dir.name="+ dir.name);
                 activeItem = dir;
                 activeItemType = type;                    
             },
             function(error){
+                alert("getactiveItem error" + error.code);
                 console.log("unable to find directory: " + error.code);
             });
     }else if(type=='f' && currentDir != null){
@@ -1194,7 +1223,9 @@ function getActiveItem(name, type){
 function openItem(type){
     //alert("openItem, type="+ type);
     if(type=='d')
+    {alert("openItem:listdir "+ activeItem.name);
         listDir(activeItem);
+        }
     else if(type == 'f'){
         readFile(activeItem);
     }
@@ -1258,6 +1289,19 @@ function getWorkingFolder() {
 	var path = window.location.href.replace('index.html', '');
 	return path;
 }  
+
+function backBtnClicked(){
+    $('#dirContent').empty();
+      //  alert("backBtn clicked");
+       alert("backBtn clicked: parentDir="+ parentDir.name);
+        
+        if(parentDir != null){     
+            alert("listing parendir" + parentDir.name);
+            listDir(parentDir);           
+        } 
+    $('#addFolderDialog').hide();
+    
+}
 
 function openBtnClicked(){
    // alert("openBtn clicked");
@@ -1616,13 +1660,22 @@ function showchartsWithStaticData(){
         dataSource: { data: bestWorstAvgRtnObj.bestworstaveragereturns.period },
         title:{text: "Holding Periods Volatility"},
         legend:{positon: "bottom"},
-        dateField: "YearLength",
+       // dateField: "YearLength",
         series:[{
             type: "column",
             highField: "BestRet",
             lowField: "WorstRet",
             openField: "AvgRet"            
         }],
+        categoryAxis: {
+                            field: "YearLength",
+                            labels: {template: "#:YearLength# Year"
+                               // rotation: -90
+                            },
+                          /*  majorGridLines: {
+                                visible: false
+                            }*/
+                        },
         
     });
 }
@@ -1685,7 +1738,7 @@ function onGetPortfolioDataSuccess(data, args){
         dataSource: { data: data.Portfolio.BestWorstAverageReturns_._BestWorstAverageReturns },
         title:{text: "Holding Periods Volatility"},
         legend:{positon: "bottom"},
-        dateField: "Year",
+    //    dateField: "Year",
         series:[ {stack:true, type:"column",
                     field: "WorstRet"},
             { type: "column",
@@ -1693,6 +1746,15 @@ function onGetPortfolioDataSuccess(data, args){
             },           
             { type:"line", field: "AvgRet"}
             ],
+        categoryAxis:
+            {
+                field: "Year",
+                majorGridLines:{visible:false},
+                labels: { template: "#:value #-Year "  },                     
+                title: { text: "Holding Period" },
+            },
+        valueAxes: [{
+             title: { text: "Range of Returns" }   }]
         
     });
 }
@@ -1715,7 +1777,7 @@ function registerTab(){
 //proposals
 
 function getProposalList(){
-    alert("getProposalList");
+   // alert("getProposalList");
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetRecentProposals";
     var param = '{instId:' + instId + ', brokerId:' + bId + '}'; 
     if(LOCAL){        
@@ -1728,7 +1790,7 @@ function getProposalList(){
 }
 
 function onGetProposalListSuccess(data, args){
-    alert("onGetProposalListSuccess");
+ //   alert("onGetProposalListSuccess");
     $("#proposallist").kendoMobileListView({
 			dataSource: data.List,
 			template: $("#recentproposal-listview-template").html(),
@@ -1739,11 +1801,11 @@ function onGetProposalListSuccess(data, args){
 
 
 function getProposalSummary(e){
-    alert("getProposalsummary");
+  //  alert("getProposalsummary");
     var partyId = e.view.params.partyId;
     var partyType = e.view.params.partyType;
     var propId = e.view.params.propId;
-    alert("partyId="+partyId+", partyType=" + partyType + ", propId="+ propId);
+   // alert("partyId="+partyId+", partyType=" + partyType + ", propId="+ propId);
     
     resetComparisonChart();
     resetPortfolioCompGrid()
@@ -1751,7 +1813,7 @@ function getProposalSummary(e){
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetProposalSummary";
     var param = '{instId:' + instId + ', brokerId:' + bId + ',groupId:' + instId + ',householdId:"' + partyId +
                 '", propId: ' + propId + ',partyId:"' + partyId + '", partyType: "Proposal"}';
-    alert("param="+param);
+   // alert("param="+param);
     if(LOCAL){        
         data = JSON.parse(RECENTCONTACT_DATA);
         onGetProposalListSuccess(data, args);
@@ -1763,7 +1825,7 @@ function getProposalSummary(e){
 
 function onGetProposalSummarySuccess(data, args){
     alert("onGetProposalSummarySuccess");
-    debugger;
+  //  debugger;
     createComparisonChart(data.Worksheet.ACList);
     createPortfolioCompGrid(data.Worksheet.ACList);
     
@@ -1912,7 +1974,7 @@ function createComparisonChart(list){
 
 function createPortfolioCompGrid(list){
     
-    alert("createComparisonTable");
+  //  alert("createComparisonTable");
     var dataArray = [];
     for(var i=0; i<list.Count; i++){
         dataArray[i] = list.List[i];
@@ -1979,6 +2041,55 @@ function createPortfolioCompGrid(list){
     
 
     
+}
+
+function takePicture(invId){
+    alert("taking a photo");
+  //  alert("taking a photo, invId = "+ invId);
+    currentInvId = invId;
+ //   navigator.camera.getPicture(onPhotoURISuccess, onPhotoURIFail, {quality:20, destinationtype:navigator.camera.DestinationType.FILE_URI});
+
+}
+
+function onPhotoURISuccess(imageURI){
+    alert("onPhotoURIsuccess");
+ // alert("OnphotoURIsuccess, imageURI="+imageURI+", invId= "+invId);
+    var image = document.getElementById("defaultImage");
+ //   alert("image element ="+image);
+    image.src = imageURI;
+ //   alert("image.src = "+ image.src);
+  //  uploadImage(imageURI);
+}
+
+function uploadImage(imageURI){
+    alert("upload image uri="+imageURI);
+    var options = new FileUploadOptions();
+    options.fileKey = "my_image";
+    options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
+    alert("upload image options.fileName ="+ options.fileName);
+   // options.mineType = "text/plain";
+    options.mineType="image/jpeg";
+    var params = {
+        val1: "some value",
+        val2: "other value"
+        };
+    options.params = params;
+    options.chunkedMode = false;
+    
+    var ft = new FileTransfer();
+    ft.upload(imageURI, encodeURI('http://10.253.2.198/FileService'), onUploadSuccess, onUploadFail, options);
+}
+
+function onPhotoURIFail(error){
+    alert("An error occurred: code= "+ error.code);
+}
+
+function onUploadSuccess(response){
+    alert("Upload complete");
+}
+
+function onUploadFail(error){
+    alert("An error occurred: code = "+ error.code);
 }
 
     
