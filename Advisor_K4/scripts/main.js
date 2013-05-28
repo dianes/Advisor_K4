@@ -24,6 +24,7 @@ window.addEventListener('load', function(){
 
 
 function ajaxCall(url, param, onSuccess, data, args){
+    app.showLoading();
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -32,6 +33,7 @@ function ajaxCall(url, param, onSuccess, data, args){
         datatype: "json",
         success: function(dat){
             data = JSON.parse(dat.d);
+            app.hideLoading();
             onSuccess(data, args)
         }, 
         error: function(data){
@@ -592,7 +594,7 @@ function getArchivedReports(hhId, acctId){
 }
 
 function onGetArchivedReportsSuccess(data, args){
-    debugger;
+  //  debugger;
     for(var i=0;i<data.BusinessObjects.length;i++){
       //  alert("Report_filename="+data.BusinessObjects[i].Report_filename);
         data.BusinessObjects[i].Report_filename = data.BusinessObjects[i].Report_filename.replace(/\\/g, "/");
@@ -1601,7 +1603,7 @@ function closeMenuOptions(){
 
 function openMenuOptionsPopover(){
     alert("openMenuOptions");
-    debugger;
+  //  debugger;
     var pop = $('#menuOptions').data("kendoMobilePopOver");
     alert("pop="+pop);
     pop.open();
@@ -1705,7 +1707,7 @@ function showcharts(){
 }
 
 function onGetPortfolioDataSuccess(data, args){
-    debugger;
+ //   debugger;
     alert("onGetPortfolioDataSuccess");
     $('#portfolioGrowthChart').kendoChart({
         dataSource: {data: data.Portfolio.MarketValues_.MarketValues_},
@@ -2091,6 +2093,28 @@ function onUploadSuccess(response){
 function onUploadFail(error){
     alert("An error occurred: code = "+ error.code);
 }
+
+function showMorecharts(){
+    var acctId = "T-15719185";
+    var householdId = 6829146;
+    var investorId=12147476;
+    var url = "http://10.253.2.198/ContactService/Service1.asmx/GetPortfolioGrowth";
+    var param = '{func:"portAnalysis", reportId:1, accountId:"' + acctId + '", householdId:' + householdId + ', investorId:' + investorId + '}'; 
+    alert("param="+param);
+    if(LOCAL){ 
+        var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);
+        //data = JSON.parse(RECENTCONTACT_DATA);
+        data = portfolioGrowthObj
+        onGetPortfolioDataSuccess(data, args);
+    }
+    else{    
+        ajaxCall(url, param, onGetPortfolioDataSuccess, data, args);  
+    }
+    
+}
+
+
+
 
     
 
