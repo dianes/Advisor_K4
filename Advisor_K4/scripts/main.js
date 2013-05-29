@@ -408,7 +408,8 @@ function getContactsInfo(hhId){
 
 function OnGetContactsInfoSuccess(data, args){
     var scriptTemplate = kendo.template($("#newcontactDetailTemplate").html());               
-    $("#hhProfileListGrid").html(scriptTemplate(data.List[0]));            
+    $("#hhProfileListGrid").html(scriptTemplate(data.List[0])); 
+    currentInvId = data.List[0].inv_id;    
 }
         
 
@@ -569,6 +570,10 @@ function getAcctDetail(e)
     $("#chart").empty();
     $("#assetsTable").empty();    
     $('#archivedRpts').empty();
+    
+    var morechartHref = '#views/morechartsView.html?householdId='+hhId+'&accountId='+acctId+'&investorId='+currentInvId;
+    
+    $("#morechart").attr('href', morechartHref);
  
     var param = '{acctId:"' + acctId + '", householdId:' + hhId + ', planId: 0, partyId:0, partyType: "Household", acViewId: -1}';    
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetAccountSnapshot";
@@ -1708,7 +1713,7 @@ function showcharts(){
 
 function onGetPortfolioDataSuccess(data, args){
  //   debugger;
-    alert("onGetPortfolioDataSuccess");
+  //  alert("onGetPortfolioDataSuccess");
     $('#portfolioGrowthChart').kendoChart({
         dataSource: {data: data.Portfolio.MarketValues_.MarketValues_},
         title: {text: "Portfolio Growth"},
@@ -2094,13 +2099,18 @@ function onUploadFail(error){
     alert("An error occurred: code = "+ error.code);
 }
 
-function showMorecharts(){
+function showMorecharts(e){
+    
     var acctId = "T-15719185";
     var householdId = 6829146;
     var investorId=12147476;
+    
+   /* var acctId = e.view.params.accountId;
+    var householdId = e.view.params.householdId;
+    var investorId = e.view.params.investorId;*/
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetPortfolioGrowth";
     var param = '{func:"portAnalysis", reportId:1, accountId:"' + acctId + '", householdId:' + householdId + ', investorId:' + investorId + '}'; 
-    alert("param="+param);
+  //  alert("param="+param);
     if(LOCAL){ 
         var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);
         //data = JSON.parse(RECENTCONTACT_DATA);
