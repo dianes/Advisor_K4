@@ -557,7 +557,6 @@ function initScrollView(e) {
         e.view.element.find("#scrollView").kendoMobileScrollView(); 
 }
 
-
 function getAcctDetail(e)
 {
     var acctId = e.view.params.acctId;
@@ -645,7 +644,8 @@ function downloadFile(location,filename){
     var name = filename.substring(filename.lastIndexOf("/") + 1);
  //   alert("name="+name);
     var fileTransfer = new FileTransfer();
-    var filePath = root.fullPath + "/Downloads/" + name;
+ //   var filePath = root.fullPath + "/Downloads/" + name;
+    var filePath = root.fullPath + "/Clients/Angela Smith/" + name;
     
   //  alert("dest path" + filePath);
 
@@ -656,10 +656,13 @@ function downloadFile(location,filename){
         alert("download completed");
         currentDir = root;
       //  alert("currentDir="+currentDir);
-        getActiveItem("Downloads", "d");
-       // alert("activeItem="+activeItem);       
-       
-        document.location.href="#views/fileView.html";
+     //  getActiveItem("Downloads", "d");
+        getActiveItem("Angela Smith", "d");
+     //   alert("download: activeItem="+activeItem);
+      //  alert("download: activeItem.name="+activeItem.name);
+       document.location.href="#views/fileView1.html";
+      //  document.location.href="#views/fileView1.html?dir="+activeItem;
+     //   alert("downloadFile: document.location.href="+document.location.href);
         console.log("download complete: " + entry.fullPath);
     },
     function(error) {
@@ -925,6 +928,7 @@ function bindHoldingsInfo(data)
                      
                        
                     ],
+                   // height:200
                 });
 }
 
@@ -997,10 +1001,11 @@ function onGetFileSystemFail(evt){
          // console.log(evt.target.error.code);
 }   
 
-function getMyFiles(){    
+function getMyFiles(e){    
    // debugger;
- //   alert("getMyFiles");
-  //  alert("getMyfiles, activeItem="+activeItem);
+  //  alert("getMyFiles");
+  //  alert("getMyfiles, activeItem="+activeItem);  
+       
        
     clickItemAction();
   //  alert("after clickitemaction");
@@ -1011,23 +1016,31 @@ function getMyFiles(){
     $('#backBtn').hide();
     $('#pasteBtn').removeAttr("onclick");
     //in case directory "dir" is passed in, list the dir 
-    if(activeItem ==null){
-     //   alert("listing root " + root.name );
+   // if(activeItem ==null)
+  //  alert("getMyfiles: e.view="+ e.view);
+  //  alert("getMyfiles: e.view.params =" + e.view.params);
+  //  alert("getMyfiles: e.view.params.dir="+ e.view.params.dir);
+   //   if(e.view.params.dir == null)
+    {
+      //  alert("listing root " + root.name );
         listDir(root);
         }
-    else
+   /* else if(activeItem != null && activeItem == 'd')
     {
+        alert("listing dir: "+ dir);
       //  alert("listing activeItem.name " + activeItem.name);
-        listDir(activeItem);
-        }
+       // listDir(activeItem);
+        listDir(e.view.params.dir);
+        }*/
 }
  
 
 function listDir(directoryEntry){      
   //  alert("listdir");
-    alert("listdir: directoryentry.fullPath="+directoryEntry.fullPath);
+  //  alert("listdir: directoryentry.fullPath="+directoryEntry.fullPath);
     var ff=$('#filefield'); 
     $('#fileField').html(directoryEntry.fullPath);
+ //   alert("listDir, filefield-directoryentry.fullpath="+ directoryEntry.fullPath);
    // var fileDiv = document.getElementById("fileField")
    // alert("fileDiv="+fileDiv);
   //  fileDiv.innerText = directoryEntry.fullPath;
@@ -1037,7 +1050,7 @@ function listDir(directoryEntry){
         console.log("listdir incorrect type");
     
     currentDir = directoryEntry;
-    alert("currentdir="+ currentDir.name);
+  //  alert("currentdir="+ currentDir.name);
     directoryEntry.getParent(function(par){
         parentDir = par;
     //   alert("parentDir.name="+parentDir.name);
@@ -1173,15 +1186,15 @@ function clickItemAction(){
     
     backBtn.live('click', function(){
      //   $('#dirContent').empty();
-        alert("backBtn clicked");
-       alert("backBtn clicked: parentDir="+ parentDir.name);
+      //  alert("backBtn clicked");
+      // alert("backBtn clicked: parentDir="+ parentDir.name);
         
         if(parentDir != null){     
-            alert("listing parendir" + parentDir.name);
+      //      alert("listing parendir" + parentDir.name);
             listDir(parentDir);
         } 
       
-        $('#addFolderDialog').hide();
+       // $('#addFolderDialog').hide();
     });
     
    /* openBtn.live('click', function(){
@@ -1203,7 +1216,7 @@ function clickItemAction(){
     
     
 function getActiveItem(name, type){
-   // alert("getactiveItem, name=" + name + " type=" +type + ",currentDir.name=" + currentDir.name);   
+ //   alert("getactiveItem, name=" + name + " type=" +type + ",currentDir.name=" + currentDir.name);   
     if(type=='d' && currentDir != null){
         currentDir.getDirectory(name, {create:false},
             function(dir){
@@ -1212,7 +1225,7 @@ function getActiveItem(name, type){
                 activeItemType = type;                    
             },
             function(error){
-                alert("getactiveItem error" + error.code);
+            //!!!!!!!  alert("getactiveItem error" + error.code);
                 console.log("unable to find directory: " + error.code);
             });
     }else if(type=='f' && currentDir != null){
@@ -1228,9 +1241,9 @@ function getActiveItem(name, type){
 }
 
 function openItem(type){
-    //alert("openItem, type="+ type);
+ //   alert("openItem, type="+ type);
     if(type=='d')
-    {alert("openItem:listdir "+ activeItem.name);
+    { //alert("openItem:listdir "+ activeItem.name);
         listDir(activeItem);
         }
     else if(type == 'f'){
@@ -1300,10 +1313,10 @@ function getWorkingFolder() {
 function backBtnClicked(){
     $('#dirContent').empty();
       //  alert("backBtn clicked");
-       alert("backBtn clicked: parentDir="+ parentDir.name);
+     //  alert("backBtn clicked: parentDir="+ parentDir.name);
         
         if(parentDir != null){     
-            alert("listing parendir" + parentDir.name);
+       //     alert("listing parendir" + parentDir.name);
             listDir(parentDir);           
         } 
     $('#addFolderDialog').hide();
@@ -1831,7 +1844,7 @@ function getProposalSummary(e){
 }
 
 function onGetProposalSummarySuccess(data, args){
-    alert("onGetProposalSummarySuccess");
+  //  alert("onGetProposalSummarySuccess");
   //  debugger;
     createComparisonChart(data.Worksheet.ACList);
     createPortfolioCompGrid(data.Worksheet.ACList);
@@ -2056,13 +2069,20 @@ function takePicture(invId){
     currentInvId = invId;
  //   navigator.camera.getPicture(onPhotoURISuccess, onPhotoURIFail, {quality:20, destinationtype:navigator.camera.DestinationType.FILE_URI});
 
+    navigator.camera.getPicture(
+             function(imageURI){
+               onPhotoURISuccess(imageURI, invId);
+            },
+            onPhotoURIFail,
+            {quality:20, destinationtype:navigator.camera.DestinationType.FILE_URI});
+
 }
 
-function onPhotoURISuccess(imageURI){
-    alert("onPhotoURIsuccess");
+function onPhotoURISuccess(imageURI, invId){
+  //  alert("onPhotoURIsuccess");
  // alert("OnphotoURIsuccess, imageURI="+imageURI+", invId= "+invId);
-    var image = document.getElementById("defaultImage");
- //   alert("image element ="+image);
+ //   var image = document.getElementById("defaultImage");
+    var image = document.getElementById(invId); 
     image.src = imageURI;
  //   alert("image.src = "+ image.src);
   //  uploadImage(imageURI);
