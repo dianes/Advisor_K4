@@ -1,9 +1,9 @@
+/*global variables*/
 var g_hhAcctListGrpFooter;
 var LOCAL = false;
 var instId=6083;
 var bId=10408149;
 var modId = 120;
-var args = [];
 var data = [];
 
 /* file system*/
@@ -48,14 +48,14 @@ function getContactList(){
     var param = '{InstID:' + instId + ', BrokerID:' + bId + '}'; 
     if(LOCAL){        
         data = JSON.parse(RECENTCONTACT_DATA);
-        onGetContactListSuccess(data, args);
+        onGetContactListSuccess(data);
     }
     else{    
-        ajaxCall(url, param, onGetContactListSuccess, data, args);  
+        ajaxCall(url, param, onGetContactListSuccess, data);  
     }
 }
 
-function onGetContactListSuccess(data, args){
+function onGetContactListSuccess(data){
   //  alert("onGetContactListSuccess");
     $("#contactlist").kendoMobileListView({
 			dataSource: data.List,
@@ -365,14 +365,14 @@ function searchContactByText(txtLname){
      
       if(LOCAL){          
           data = JSON.parse(CONTACTSEARCH_SMITH_DATA);
-          onContactSearchSuccess(data, args);
+          onContactSearchSuccess(data);
       }
       else{
-          ajaxCall(url, param, onContactSearchSuccess, data, args);
+          ajaxCall(url, param, onContactSearchSuccess, data);
       }
 }
 
-function onContactSearchSuccess(data, args){
+function onContactSearchSuccess(data){
   //  alert("onContactSearchSuccess");
  
     $("#tblDiv .k-grid-header").remove(); 
@@ -400,13 +400,13 @@ function getContactsInfo(hhId){
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetContactDetails";   
     if(LOCAL){        
         data = JSON.parse(CONTACTDETAIL_DATA);
-        OnGetContactsInfoSuccess(data, args);
+        OnGetContactsInfoSuccess(data);
     }else{        
-        ajaxCall(url, param, OnGetContactsInfoSuccess, data, args);
+        ajaxCall(url, param, OnGetContactsInfoSuccess, data);
     }
 }
 
-function OnGetContactsInfoSuccess(data, args){
+function OnGetContactsInfoSuccess(data){
     var scriptTemplate = kendo.template($("#newcontactDetailTemplate").html());               
     $("#hhProfileListGrid").html(scriptTemplate(data.List[0])); 
     currentInvId = data.List[0].inv_id;    
@@ -419,6 +419,7 @@ function getAccountsInfo(hhId){
     $("#hhAccountInfo").empty();
     var param = '{planId: 0, householdId:' + hhId + '}'; 
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetAccountHHSnapshot";    
+    var args = [];
     args[0] = hhId;
     if(LOCAL){
         data = JSON.parse(ACCOUNTHHSNAPHOT_DATA);
@@ -578,9 +579,9 @@ function getAcctDetail(e)
     var url = "http://10.253.2.198/ContactService/Service1.asmx/GetAccountSnapshot";
     if(LOCAL){        
         data = JSON.parse(ACCOUNTSNAPSHOT_DATA);
-        onGetAcctDetailSuccess(data, args);
+        onGetAcctDetailSuccess(data);
     }else{
-        ajaxCall(url, param, onGetAcctDetailSuccess, data, args);
+        ajaxCall(url, param, onGetAcctDetailSuccess, data);
     }
     
     getArchivedReports(hhId, acctId);
@@ -591,13 +592,13 @@ function getArchivedReports(hhId, acctId){
     var param = '{acctId:"' + acctId + '", householdId:' + hhId + ',instId:' + instId + ',brokerId:' + bId + '}';
     if(LOCAL){        
         data = JSON.parse(ARCHIVEDREPORT_DATA);
-        onGetArchivedReportsSuccess(data, args);
+        onGetArchivedReportsSuccess(data);
     }else{
-        ajaxCall(url, param, onGetArchivedReportsSuccess, data, args);
+        ajaxCall(url, param, onGetArchivedReportsSuccess, data);
     }
 }
 
-function onGetArchivedReportsSuccess(data, args){
+function onGetArchivedReportsSuccess(data){
   //  debugger;
     for(var i=0;i<data.BusinessObjects.length;i++){
       //  alert("Report_filename="+data.BusinessObjects[i].Report_filename);
@@ -677,7 +678,7 @@ function downloadFile(location,filename){
     
 }
 
-function onGetAcctDetailSuccess(data, args)
+function onGetAcctDetailSuccess(data)
 {
     var scriptTemplate = kendo.template($("#accountDetailInfoTemplate").html());
     $("#accountDetailInfo").html(scriptTemplate(data.AcctPositionMemento));
@@ -1717,14 +1718,14 @@ function showcharts(){
         var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);
         //data = JSON.parse(RECENTCONTACT_DATA);
         data = portfolioGrowthObj
-        onGetPortfolioDataSuccess(data, args);
+        onGetPortfolioDataSuccess(data);
     }
     else{    
-        ajaxCall(url, param, onGetPortfolioDataSuccess, data, args);  
+        ajaxCall(url, param, onGetPortfolioDataSuccess, data);  
     }
 }
 
-function onGetPortfolioDataSuccess(data, args){
+function onGetPortfolioDataSuccess(data){
  //   debugger;
   //  alert("onGetPortfolioDataSuccess");
     $('#portfolioGrowthChart').kendoChart({
@@ -1802,14 +1803,14 @@ function getProposalList(){
     var param = '{instId:' + instId + ', brokerId:' + bId + '}'; 
     if(LOCAL){        
         data = JSON.parse(RECENTCONTACT_DATA);
-        onGetProposalListSuccess(data, args);
+        onGetProposalListSuccess(data);
     }
     else{    
-        ajaxCall(url, param, onGetProposalListSuccess, data, args);  
+        ajaxCall(url, param, onGetProposalListSuccess, data);  
     }
 }
 
-function onGetProposalListSuccess(data, args){
+function onGetProposalListSuccess(data){
  //   alert("onGetProposalListSuccess");
     $("#proposallist").kendoMobileListView({
 			dataSource: data.List,
@@ -1836,14 +1837,14 @@ function getProposalSummary(e){
    // alert("param="+param);
     if(LOCAL){        
         data = JSON.parse(RECENTCONTACT_DATA);
-        onGetProposalListSuccess(data, args);
+        onGetProposalListSuccess(data);
     }
     else{    
-        ajaxCall(url, param, onGetProposalSummarySuccess, data, args);
+        ajaxCall(url, param, onGetProposalSummarySuccess, data);
     }
 }
 
-function onGetProposalSummarySuccess(data, args){
+function onGetProposalSummarySuccess(data){
   //  alert("onGetProposalSummarySuccess");
   //  debugger;
     createComparisonChart(data.Worksheet.ACList);
@@ -2134,10 +2135,10 @@ function showMorecharts(e){
         var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);
         //data = JSON.parse(RECENTCONTACT_DATA);
         data = portfolioGrowthObj
-        onGetPortfolioDataSuccess(data, args);
+        onGetPortfolioDataSuccess(data);
     }
     else{    
-        ajaxCall(url, param, onGetPortfolioDataSuccess, data, args);  
+        ajaxCall(url, param, onGetPortfolioDataSuccess, data);  
     }
     
 }
