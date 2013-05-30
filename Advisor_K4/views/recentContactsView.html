@@ -6,108 +6,32 @@
             <span data-role="view-title"></span>
 		</div>
 	</header>
-    <!--<div id="recentcontactViewContent" data-role="content">	-->	
-          <ul id="contactlist" data-role="listview" data-style="inset"></ul>        
-        <!-- <div id="grid"></div>
-            <table id="contactListGrid">              
-                <thead id="contactListHdr">
-                    <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Type
-                        </th>
-                        <th>
-                            Phone
-                        </th>
-                        <th>
-                            City
-                        </th>                       
-                        <th>
-                            State
-                        </th>
-                        <th>
-                            Zip
-                        </th>
-                        <th>
-                            Last Accessed
-                        </th>
-                        <th>
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="8"></td>
-                    </tr>
-                </tbody>
-            </table>    -->   
-            
-    </div>    
- <!--</div>-->
-
-<!--<script id="contactListRowTemplate" type="text/x-kendo-template">
-        <tr>            
-               <td><a href="\#hhSnapshotView?hhId=#: hh_id #">#: lname #, #: fname #</a></td>         
-                <td>#: type #</td>
-                 #if(phone == ""){# 
-                    <td>NA</td> 
-                #}else{#    
-                    <td>#: phone #</td>
-                #}#
-                
-                #if(city == ""){# 
-                    <td>NA</td> 
-                #}else{#    
-                    <td>#: city #</td>
-                #}#
-                        
-                #if(state == ""){# 
-                    <td>NA</td> 
-                #}else{#    
-                    <td>#: state #</td>
-                #}#
-                        
-                #if(zip == ""){# 
-                    <td>NA</td> 
-                #}else{#    
-                    <td>#: zip #</td> 
-                #}#
-                <td>#: access_date #</td>
-                <td>
-                       <a href="views/hhProfileView.html?hhId=#: hh_id #" data-role="button">H</a>
-                       <a href="" data-role="button">P</a>
-                           
-                </td>
-                
-       </tr>
-</script>-->
+    
+     <ul id="contactlist" data-role="listview" data-style="inset"></ul>
+</div>    
 
 <script type="text/x-kendo-template" id="recentcontact-listview-template">
+    
     <img src="images/default-portrait.png" class="photo" id="${inv_id}"/>
-    <a href="\#hhProfileView?hhId=${hh_id}" style="text-decoration:none;">${lname}, ${fname}              
+   
+    <a href="\#hhProfileView?hhId=${hh_id}" style="text-decoration:none;">${lname}, ${fname} 
+    
             <p class="contact-type">${type}</p>
             <div data-role="button" id="pictureBtn_${inv_id}" onclick="javascript:takePicture(${inv_id});" style="font-size:10px" >Capture</div>
     </a>
 </script>
 
  <script type="text/x-kendo-template" id="recentcontact-listview-template1">
-             <a href="\#hhProfileView?hhId=${hh_id}" style="text-decoration:none;"><span class="km-listview-link">${lname}, ${fname}</span></a>
-          <!-- <a href="\#hhSnapshotView?hhId=${hh_id}" style="text-decoration:none;">${lname}, ${fname} </a>             
-            <p class="contact-type">${type}</p>
-           <a href="\#hhProfileView?hhId=${hh_id}" data-role="button" data-icon="details" class="details-link" onclick="contactdetailclick(${hh_id});"></a>-->
+     <a href="\#hhProfileView?hhId=${hh_id}" style="text-decoration:none;"><span class="km-listview-link">${lname}, ${fname}</span></a>          
  </script>
 
  <script type="text/x-kendo-template" id="recentcontact-listview-template2">
-            <a href="\#hhSnapshotView?hhId=${hh_id}" onclick="contactnameclick(${hh_id});">${lname}, ${fname} </a> 
-            
+      <a href="\#hhSnapshotView?hhId=${hh_id}" onclick="contactnameclick(${hh_id});">${lname}, ${fname} </a>             
  </script>
    
  
 
-
+<!--not used-->
 <div data-role="view" id="hhSnapshotView" data-title="Household Snapshot" data-align="left" data-show="getHHSnapshot" >
 	<header data-role="header">
 		<div data-role="navbar">
@@ -116,8 +40,7 @@
 		</div>
 	</header>
     
-    <div id="hhSnapshotViewContent" data-role="content">       
-        
+    <div id="hhSnapshotViewContent" data-role="content">
         <div>
             <ul data-role="listview" data-style="inset" data-type="group">
                 <li>
@@ -149,11 +72,6 @@
 </div>
 
 
-<script type="text/x-kendo-template" id="account">
-            <!--<a href="">hello</a>-->
-            <!--<a href="\#hhSnapshotView?hhId=\#= myName \#"> \#= myName </a>-->
-            <a data-role="detailbutton" data-style="rowdelete" data-click="removeSubReddit" data-id="${id}" class="delete"></a>
-    </script>
 
 
 
@@ -162,7 +80,7 @@
 
 
 
-/*****************************/
+
 
 
 

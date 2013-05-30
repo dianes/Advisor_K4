@@ -98,12 +98,15 @@
     <Content Include="Reports\Select Separate Account.pdf" />
     <Content Include="Reports\Alliance Large-Cap Core.pdf" />
     <Content Include="Reports\Anchor All-Cap Value.pdf" />
+    <Content Include="scripts\accountDetail.js" />
+    <Content Include="scripts\contact.js" />
     <Content Include="scripts\data.js" />
-    <Content Include="scripts\hello-world.js" />
+    <Content Include="scripts\file.js" />
+    <Content Include="scripts\householdProfile.js" />
     <Content Include="scripts\jquery.mobile-1.2.0.min.js" />
     <Content Include="scripts\kendo.all.min.js" />
-    <Content Include="scripts\kendo.grid.min.js" />
     <Content Include="scripts\main.js" />
+    <Content Include="scripts\proposal.js" />
     <Content Include="scripts\xml2json.js" />
     <Content Include="styles\jquery.mobile-1.2.0.min.css" />
     <Content Include="styles\kendo.common.min.css" />
@@ -114,7 +117,6 @@
     <Content Include="views\chartsView.html" />
     <Content Include="views\contactSearchView.html" />
     <Content Include="views\fileView1.html" />
-    <Content Include="views\modelSearchView.html" />
     <Content Include="views\morechartsView.html" />
     <Content Include="views\recentContactsView.html" />
     <Content Include="views\recentProposalsView.html" />
