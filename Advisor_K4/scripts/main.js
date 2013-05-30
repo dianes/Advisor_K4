@@ -2064,8 +2064,7 @@ function createPortfolioCompGrid(list){
 }
 
 function takePicture(invId){
-    alert("taking a photo");
-  //  alert("taking a photo, invId = "+ invId);
+    alert("taking a photo");    
     currentInvId = invId;
  //   navigator.camera.getPicture(onPhotoURISuccess, onPhotoURIFail, {quality:20, destinationtype:navigator.camera.DestinationType.FILE_URI});
 
@@ -2080,22 +2079,22 @@ function takePicture(invId){
 
 function onPhotoURISuccess(imageURI, invId){
   //  alert("onPhotoURIsuccess");
- // alert("OnphotoURIsuccess, imageURI="+imageURI+", invId= "+invId);
- //   var image = document.getElementById("defaultImage");
     var image = document.getElementById(invId); 
     image.src = imageURI;
  //   alert("image.src = "+ image.src);
-  //  uploadImage(imageURI);
+   uploadImage(imageURI, invId);
 }
 
-function uploadImage(imageURI){
-    alert("upload image uri="+imageURI);
+function uploadImage(imageURI, invId){
+    alert("uploading image uri="+imageURI);
     var options = new FileUploadOptions();
     options.fileKey = "my_image";
-    options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
-    alert("upload image options.fileName ="+ options.fileName);
-   // options.mineType = "text/plain";
-    options.mineType="image/jpeg";
+  //  options.fileName = imageURI.substr(imageURI.lastIndexOf('/')+1);
+    options.fileName = invId + ".jpg";
+        
+    //tested with both mineTypes, all worked.
+    options.mineType = "text/plain";
+  //  options.mineType="image/jpeg";
     var params = {
         val1: "some value",
         val2: "other value"
@@ -2104,7 +2103,7 @@ function uploadImage(imageURI){
     options.chunkedMode = false;
     
     var ft = new FileTransfer();
-    ft.upload(imageURI, encodeURI('http://10.253.2.198/FileService'), onUploadSuccess, onUploadFail, options);
+    ft.upload(imageURI, encodeURI('http://10.253.2.115/TestFileUpload/upload.php'), onUploadSuccess, onUploadFail, options);
 }
 
 function onPhotoURIFail(error){
