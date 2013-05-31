@@ -13,7 +13,7 @@ function onGetFileSystemFail(evt){
 
 
 function getMyFiles(e){ 
-    alert("getMyFiles");
+  //  alert("getMyFiles");
   //  alert("getMyfiles, activeItem="+activeItem);
     clickItemAction();
     $('#backBtn').hide();

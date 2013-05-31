@@ -46,8 +46,7 @@ function getProposalSummary(e){
 }
 
 function onGetProposalSummarySuccess(data){
-  //  alert("onGetProposalSummarySuccess");
-  //  debugger;
+  //  alert("onGetProposalSummarySuccess");  
     createComparisonChart(data.Worksheet.ACList);
     createPortfolioCompGrid(data.Worksheet.ACList);
     

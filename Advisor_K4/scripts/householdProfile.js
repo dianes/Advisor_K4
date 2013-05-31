@@ -1,4 +1,28 @@
 function getHHProfile(e){
+   // alert("getHHProfile");
+    $("#hhProfileListGrid").empty();
+    $("#hhAccountInfo").empty();
+    var args = [];
+    args[0] = e.view.params.hhId;
+    var param = '{instId:'+instId+',brokerId:'+bId+',householdId:'+args[0]+',planId:0,propId:0}';
+    var url = "http://" + SERVER + "/ContactService/Service1.asmx/GetHouseholdProfile";    
+    
+    if(LOCAL){        
+        data = JSON.parse(HHPROFILE_DATA);
+        onGetHHProfileSuccess(data, args);
+    }else{        
+        ajaxCall(url, param, onGetHHProfileSuccess, data, args);
+    }
+}
+
+function onGetHHProfileSuccess(data, args){
+   // alert("onGetHHProfileSuccess");
+    OnGetContactsInfoSuccess(data.contactlist);
+    onGetAccountsInfoSuccess(data.acctsnapshot, args);
+}
+
+
+function getHHProfileOld(e){
     var hhId = e.view.params.hhId;
     getAccountsInfo(hhId);
     getContactsInfo(hhId);
@@ -40,8 +64,7 @@ function getAccountsInfo(hhId){
     }
  }
 
-function onGetAccountsInfoSuccess(data, args)
-{
+function onGetAccountsInfoSuccess(data, args){
   //  alert("onGetAccountsInfoSuccess");
     var hhId = args[0];  
     $("#hhAccountInfo").kendoGrid({

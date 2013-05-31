@@ -44,7 +44,8 @@ function getPhotoImages(){
     var url = "http://" + SERVER2 + "/ServiceImages/Service1.asmx/GetPhotoUrls";   
     var param = null;
     if(LOCAL){        
-        data = JSON.parse(PHOTOIMAGE_DATA);
+      //  data = JSON.parse(PHOTOIMAGE_DATA);
+        data = PHOTOIMAGE_DATA;
         onGetPhotoImagesSuccess(data);
     }
     else{    

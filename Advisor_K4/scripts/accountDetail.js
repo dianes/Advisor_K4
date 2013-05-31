@@ -2,13 +2,10 @@ function initScrollView(e) {
         e.view.element.find("#scrollView").kendoMobileScrollView(); 
 }
 
-function getAcctDetail(e)
-{
+function getAcctDetail(e){
+  //  alert("getAccountDetail");
     var acctId = e.view.params.acctId;
     var hhId = e.view.params.householdId;
-  
- //  alert("getAccountDetail");
-    
     $("#accountDetailInfo").empty();
     $("#holdingsInfo").empty();
     $("#chart").empty();
@@ -16,37 +13,34 @@ function getAcctDetail(e)
     $('#archivedRpts').empty();
     
     var morechartHref = '#views/morechartsView.html?householdId='+hhId+'&accountId='+acctId+'&investorId='+currentInvId;
-    
     $("#morechart").attr('href', morechartHref);
- 
-    var param = '{instId:' + instId + ', brokerId:' + bId + ', acctId:"' + acctId + '", householdId:' + hhId + ', planId: 0, partyId:0, partyType: "Household", acViewId: -1}';    
-    var url = "http://" + SERVER + "/ContactService/Service1.asmx/GetAccountSnapshot";
-    if(LOCAL){        
-        data = JSON.parse(ACCOUNTSNAPSHOT_DATA);
-        onGetAcctDetailSuccess(data);
-    }else{
-        ajaxCall(url, param, onGetAcctDetailSuccess, data);
-    }
     
-    getArchivedReports(hhId, acctId);
+    getAcctDetailData(hhId, acctId);
 }
 
-function getArchivedReports(hhId, acctId){
-    var url = "http://" + SERVER + "/ContactService/Service1.asmx/GetArchiveReports";
-    var param = '{acctId:"' + acctId + '", householdId:' + hhId + ',instId:' + instId + ',brokerId:' + bId + '}';
+function getAcctDetailData(hhId, acctId){
+   // alert("getAcctDetailData");
+    var param = '{instId:'+instId+',brokerId:'+bId+',householdId:'+hhId+',acctId:"'+acctId+'",planId:0,partyId:0,partyType:"Household",acViewId: -1}';   
+    var url = "http://" + SERVER + "/ContactService/Service1.asmx/GetAccountDetailandArchiveRpt";
     if(LOCAL){        
-        data = JSON.parse(ARCHIVEDREPORT_DATA);
-        onGetArchivedReportsSuccess(data);
+        //data = JSON.parse(ACCTDETAILWITHARCHIVEDRPT_DATA); 
+        data = ACCTDETAILWITHARCHIVEDRPT_DATA.replace(/\\/g,"/");
+        data =JSON.parse(data);
+        onGetAccountDetailDataSuccess(data);
     }else{
-        ajaxCall(url, param, onGetArchivedReportsSuccess, data);
+        ajaxCall(url, param, onGetAccountDetailDataSuccess, data);
     }
 }
 
-function onGetArchivedReportsSuccess(data){
-    for(var i=0;i<data.BusinessObjects.length;i++){
-      //  alert("Report_filename="+data.BusinessObjects[i].Report_filename);
+function onGetAccountDetailDataSuccess(data){
+    onGetAcctDetailSuccess(data.acctsnapshot);
+    onGetArchivedReportsSuccess(data.archivedrpts);
+}
+
+
+function onGetArchivedReportsSuccess(data){    
+    for(var i=0;i<data.BusinessObjects.length;i++){      
         data.BusinessObjects[i].Report_filename = data.BusinessObjects[i].Report_filename.replace(/\\/g, "/");
-      //  alert("after replace data.BusinessObjects[i].Report_filename="+ data.BusinessObjects[i].Report_filename);
     }
     
     $("#archivedRpts").kendoGrid({
@@ -79,13 +73,13 @@ function onGetArchivedReportsSuccess(data){
 }
 
 function downloadFile(location,filename){ 
-    var url = "http://" + SERVER + "" + location + "/" + name; 
-    var name = filename.substring(filename.lastIndexOf("/") + 1);
- 
-    var fileTransfer = new FileTransfer();
- //   var filePath = root.fullPath + "/Downloads/" + name;
-    var filePath = root.fullPath + "/Clients/Angela Smith/" + name;
+    alert("downloadFile: location="+location+", filename="+ filename);   
+    var url = "http://" + SERVER + "" + location + "/" + filename; 
     
+    var fileTransfer = new FileTransfer();
+    var name = filename.substring(filename.lastIndexOf("/") + 1);    
+ //   var filePath = root.fullPath + "/Downloads/" + name;
+    var filePath = root.fullPath + "/Clients/Angela Smith/" + name;    
   //  alert("dest path" + filePath);
 
     fileTransfer.download(
@@ -96,7 +90,7 @@ function downloadFile(location,filename){
         currentDir = root;
       //  alert("currentDir="+currentDir);
      //  getActiveItem("Downloads", "d");
-        getActiveItem("Angela Smith", "d");
+     //   getActiveItem("Angela Smith", "d");
      //   alert("download: activeItem="+activeItem);
       //  alert("download: activeItem.name="+activeItem.name);
        document.location.href="#views/fileView1.html";
@@ -128,8 +122,7 @@ function onGetAcctDetailSuccess(data)
 
 
 function createChart(list){
- //   alert("createChart");
-
+   // alert("createChart");
     var dataArray = [];
     var colorArray=[];
    
@@ -174,8 +167,7 @@ function createChart(list){
 }
 
 
-function assetsTable(list)
-{
+function assetsTable(list){
   //  alert("assetsTable");
     var dataArray = [];
     for(var i=0; i<list.length; i++){
@@ -190,7 +182,7 @@ function assetsTable(list)
                columns: [
               { field: "color",
                 title: " ",
-                width: "10%",                        
+                width: "8%",                        
                 attributes:{
                     style: "background-color:#:color#;width:5%"
                 } 
@@ -201,7 +193,7 @@ function assetsTable(list)
                  headerAttributes:{
                      style: "text-align:left"
                  },
-                 width: "70%"
+                 width: "65%"
              },
              {    
                  field: "pct",
@@ -211,21 +203,16 @@ function assetsTable(list)
                  }
              }
          ],
-
       //  editable:true,
                 
-            });
-
-
+         });
 }
 
-function bindHoldingsInfo(data)
-{   
-   // alert("getHoldingsInfo");
+function bindHoldingsInfo(data){   
+  // alert("getHoldingsInfo");
     var dataArray = [];
     
-    for(var i=0; i<data.BusinessObjects.length; i++)
-    {
+    for(var i=0; i<data.BusinessObjects.length; i++){
         dataArray[i] = data.BusinessObjects[i].Security_Detail;
         dataArray[i].Qty = data.BusinessObjects[i].Qty;
         dataArray[i].Current_price = data.BusinessObjects[i].Current_price;
@@ -288,8 +275,7 @@ function showcharts(){
     var param = '{func:"portAnalysis", reportId:1, accountId:"' + acctId + '", householdId:' + householdId + ', investorId:' + investorId + '}'; 
     alert("param="+param);
     if(LOCAL){ 
-        var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);
-        //data = JSON.parse(RECENTCONTACT_DATA);
+        var portfolioGrowthObj=xml2json.parser(PORTFOLIOGROWTH_XML);        
         data = portfolioGrowthObj;
         onGetPortfolioDataSuccess(data);
     }
@@ -299,7 +285,6 @@ function showcharts(){
 }
 
 function onGetPortfolioDataSuccess(data){
- //   debugger;
   //  alert("onGetPortfolioDataSuccess");
     $('#portfolioGrowthChart').kendoChart({
         dataSource: {data: data.Portfolio.MarketValues_.MarketValues_},
@@ -374,7 +359,49 @@ function showMorecharts(e){
     }
     else{    
         ajaxCall(url, param, onGetPortfolioDataSuccess, data);  
+    }    
+}
+
+
+/********************************************START NOT USED********************************************/
+function getAcctDetailOld(e)
+{
+    var acctId = e.view.params.acctId;
+    var hhId = e.view.params.householdId;
+  
+ //  alert("getAccountDetail");
+    
+    $("#accountDetailInfo").empty();
+    $("#holdingsInfo").empty();
+    $("#chart").empty();
+    $("#assetsTable").empty();    
+    $('#archivedRpts').empty();
+    
+    var morechartHref = '#views/morechartsView.html?householdId='+hhId+'&accountId='+acctId+'&investorId='+currentInvId;
+    
+    $("#morechart").attr('href', morechartHref);
+ 
+    var param = '{instId:' + instId + ', brokerId:' + bId + ', acctId:"' + acctId + '", householdId:' + hhId + ', planId: 0, partyId:0, partyType: "Household", acViewId: -1}';    
+    var url = "http://" + SERVER + "/ContactService/Service1.asmx/GetAccountSnapshot";
+    if(LOCAL){        
+        data = JSON.parse(ACCOUNTSNAPSHOT_DATA);
+        onGetAcctDetailSuccess(data);
+    }else{
+        ajaxCall(url, param, onGetAcctDetailSuccess, data);
     }
     
+    getArchivedReports(hhId, acctId);
 }
+
+function getArchivedReports(hhId, acctId){
+    var url = "http://" + SERVER + "/ContactService/Service1.asmx/GetArchiveReports";
+    var param = '{acctId:"' + acctId + '", householdId:' + hhId + ',instId:' + instId + ',brokerId:' + bId + '}';
+    if(LOCAL){        
+        data = JSON.parse(ARCHIVEDREPORT_DATA);
+        onGetArchivedReportsSuccess(data);
+    }else{
+        ajaxCall(url, param, onGetArchivedReportsSuccess, data);
+    }
+}
+
 
