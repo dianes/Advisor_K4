@@ -1,4 +1,4 @@
-<div data-role="view" id="recentContactsView" data-title="Recent Contacts" data-init="getContactList">
+<div data-role="view" id="recentContactsView" data-title="Recent Contacts" data-show="getContactList">
 	<header data-role="header">
 		<div data-role="navbar">
             <a id="btnContactSearch" data-role="button" href="views/contactSearchView.html" 
@@ -11,8 +11,11 @@
 </div>    
 
 <script type="text/x-kendo-template" id="recentcontact-listview-template">
-    
-    <img src="images/default-portrait.png" class="photo" id="${inv_id}"/>
+    #if(photoUrl!=""){#
+        <img src="${photoUrl}" class="photo" id="${inv_id}"/>
+    #}else{#
+        <img src="images/default-portrait.png" class="photo" id="${inv_id}"/>
+    #}#
    
     <a href="\#hhProfileView?hhId=${hh_id}" style="text-decoration:none;">${lname}, ${fname} 
     

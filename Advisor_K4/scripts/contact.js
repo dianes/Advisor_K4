@@ -1,4 +1,6 @@
 function getContactList(){
+    getPhotoImages();
+    
     var url = "http://" + SERVER + "/ContactService/Service1.asmx/GetRecentContacts";
     var param = '{InstID:' + instId + ', BrokerID:' + bId + '}'; 
     if(LOCAL){        
@@ -7,16 +9,54 @@ function getContactList(){
     }
     else{    
         ajaxCall(url, param, onGetContactListSuccess, data);  
-    }
+    } 
 }
 
 function onGetContactListSuccess(data){
   //  alert("onGetContactListSuccess");
+    addPhotoToContactList(data);
     $("#contactlist").kendoMobileListView({
 			dataSource: data.List,
 			template: $("#recentcontact-listview-template").html(),
             style: "inset" 
     });          
+}
+
+function addPhotoToContactList(data){
+    if(photos!=null){
+        var item;
+        $.each(data.List, function(index, value){
+            item = value.inv_id + ".jpg";            
+            //alert("photos.indexOf("+item+")="+photos.indexOf(item));
+             if(photos.indexOf(item) > -1){                
+                data.List[index].photoUrl = "http://" + SERVER2 + "/TestFileUpload/uploads/" + item;
+                // alert("found, data.List[" + index + "].photoUrl="+data.List[index].photoUrl);
+                 }
+            else{
+                data.List[index].photoUrl="";
+                //alert("not found, data.List[" + index + "].photoUrl="+data.List[index].photoUrl);
+            }            
+        });
+    }
+}
+
+function getPhotoImages(){
+    var url = "http://" + SERVER2 + "/ServiceImages/Service1.asmx/GetPhotoUrls";   
+    var param = null;
+    if(LOCAL){        
+        data = JSON.parse(PHOTOIMAGE_DATA);
+        onGetPhotoImagesSuccess(data);
+    }
+    else{    
+        ajaxCall(url, param, onGetPhotoImagesSuccess, data);  
+    }
+}
+
+function onGetPhotoImagesSuccess(data){    
+  //  alert("onGetPhotoImagesSuccess");    
+    $.each(data, function(index, value) {
+      photos[index] = value.substr(value.lastIndexOf('\\')+1);
+    });        
 }
 
 //contact search
@@ -190,6 +230,7 @@ function onContactSearchSuccess(data){
   //  alert("onContactSearchSuccess");
  
     $("#tblDiv .k-grid-header").remove(); 
+    addPhotoToContactList(data);
     $("#contactsearchlist").kendoMobileListView({
 			dataSource: data.List,
 			template: $("#recentcontact-listview-template").html(),

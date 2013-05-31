@@ -16,6 +16,7 @@ var clipboardItem = null;
 var clipboardItemAction = null;
 var fileText = null;
 var currentInvId = null;
+var photos = [];
 
 
 window.addEventListener('load', function(){
@@ -41,6 +42,7 @@ function ajaxCall(url, param, onSuccess, data, args){
             onSuccess(data, args)
         }, 
         error: function(data){
+            app.hideLoading();
             alert('failure:' + data.status + ':' + data.responseText);
             }        
     });
